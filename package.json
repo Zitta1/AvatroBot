@@ -1,0 +1,27 @@
+{
+  "name": "axelbot",
+  "version": "1.0.0",
+  "description": "a discord bot for @Axel#9999 (719610896321609728)",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zitta1/AxelBot.git"
+  },
+  "author": "@ɀגזזו#3759",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zitta1/AxelBot/issues"
+  },
+  "homepage": "https://github.com/Zitta1/AxelBot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "moment": "^2.27.0",
+    "mongoose": "^5.9.20",
+    "ms": "^2.1.2"
+  }
+}
