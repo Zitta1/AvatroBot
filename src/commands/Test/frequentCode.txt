@@ -1,0 +1,30 @@
+member
+const member = message.mentions.members.first() ||
+      message.guild.member(
+        message.client.users.cache.find((user) => user.username == args[0])
+      ) ||
+      message.guild.member(
+        message.client.users.cache.find((user) => user.id == args[0])
+      );
+    if (!member) return message.channel.send(replies.userNotFound[Math.floor(Math.random() * replies.userNotFound.length)].replace("{args[0]}", args[0]));
+
+no perms
+if (!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send(replies.clientNoPerms[Math.floor(Math.random() * replies.clientNoPerms.length)]);
+
+user not found
+if (!member) return message.channel.send(replies.userNotFound[Math.floor(Math.random() * replies.userNotFound.length)].replace("{args[0]}", args[0]));
+
+client no perms
+if (!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.channel.send(replies.clientNoPerms[Math.floor(Math.random() * replies.clientNoPerms.length)]);
+
+successful kick
+replies.successfulKick[Math.floor(Math.random() * replies.successfulKick.length)]
+
+kick dm message
+replies.kickDmMessage[Math.floor(Math.random() * replies.kickDmMessage.length)]
+
+successful ban
+replies.successfulBan[Math.floor(Math.random() * replies.successfulBan.length)]
+
+ban dm message
+replies.banDmMessage[Math.floor(Math.random() * replies.banDmMessage.length)]

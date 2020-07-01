@@ -1,0 +1,11 @@
+module.exports = {
+  name: "",
+  aliases: [""],
+  run: (client, message, args) => {
+
+  },
+  cooldown: 5,
+  usage: "",
+  description: "",
+  category: ""
+};

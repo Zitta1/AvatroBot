@@ -1,0 +1,27 @@
+{
+  embed: {
+    title:,
+    color: "#5991bd",
+    author: {
+      icon_url: message.author.avatarURL()
+    },
+    fields: [
+      {
+
+      }
+    ],
+    timestamp: new Date(),
+    footer: {
+      text: `ID: ${message.author.id}`
+    }
+  }
+}
+
+const { MessageEmbed } = require("discord.js");
+let embed = new MessageEmbed()
+  .setTitle()
+  .setColor("#5991bd")
+  .setAuthor("", message.author.avatarURL())
+  .addField()
+  .setTimestamp()
+  .setFooter(`ID: ${message.author.id}`)

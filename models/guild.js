@@ -129,6 +129,9 @@ const guildSchema = mongoose.Schema({
         type: Boolean,
         default: defaults.modules.moderation.enabled
       },
+      moderatorRole: {
+        type: String
+      }
     },
     AFK: {
       enabled: {
