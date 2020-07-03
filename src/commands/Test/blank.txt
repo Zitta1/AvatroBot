@@ -1,7 +1,7 @@
 module.exports = {
   name: "",
   aliases: [""],
-  run: (client, message, args) => {
+  run: (client, message, args, settings) => {
 
   },
   cooldown: 5,

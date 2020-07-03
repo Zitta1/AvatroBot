@@ -1,9 +1,10 @@
 module.exports = {
   name: "test",
   run: async (client, message, args, settings) => {
-    const member = await message.guild.member(args[0]);
-    await client.removeMember(member);
-    console.log(await client.getAllMembers());
+    const setings = require("../../../util/defaultSettings");
+    let data = setings.DEFAULTSETTINGS.modules.logs.enabled
+    {data: true}
+    console.log(settings.modules["logs"]);
   },
   cooldown: 0,
 };

@@ -97,32 +97,44 @@ const guildSchema = mongoose.Schema({
           default: defaults.modules.logs.eventsEnabled.webhookUpdate
         },
       },
+      description: {
+        type: String,
+        default: defaults.modules.logs.description
+      }
     },
-    annoucements: {
+    announcements: {
       welcomeMessage: {
         enabled: {
           type: Boolean,
-          default: defaults.modules.annoucements.welcomeMessage.enabled
+          default: defaults.modules.announcements.welcomeMessage.enabled
         },
       },
       leaveMessage: {
         enabled: {
           type: Boolean,
-          default: defaults.modules.annoucements.leaveMessage.enabled
+          default: defaults.modules.announcements.leaveMessage.enabled
         },
       },
       memberBanned: {
         enabled: {
           type: Boolean,
-          default: defaults.modules.annoucements.memberBanned.enabled
+          default: defaults.modules.announcements.memberBanned.enabled
         },
       },
       memberKicked: {
         enabled: {
           type: Boolean,
-          default: defaults.modules.annoucements.memberKicked.enabled
+          default: defaults.modules.announcements.memberKicked.enabled
         },
       },
+      enabled: {
+        type: Boolean,
+        default: defaults.modules.announcements.enabled
+      },
+      description: {
+        type: String,
+        default: defaults.modules.announcements.description
+      }
     },
     moderation: {
       enabled: {
@@ -131,6 +143,10 @@ const guildSchema = mongoose.Schema({
       },
       moderatorRole: {
         type: String
+      },
+      description: {
+        type: String,
+        default: defaults.modules.moderation.description
       }
     },
     AFK: {
@@ -138,24 +154,40 @@ const guildSchema = mongoose.Schema({
         type: Boolean,
         default: defaults.modules.AFK.enabled
       },
+      description: {
+        type: String,
+        default: defaults.modules.AFK.description
+      }
     },
     autoMessage: {
       enabled: {
         type: Boolean,
         default: defaults.modules.autoMessage.enabled
       },
+      description: {
+        type: String,
+        default: defaults.modules.autoMessage.description
+      }
     },
     autoRoles: {
       enabled: {
         type: Boolean,
         default: defaults.modules.autoRoles.enabled
       },
+      description: {
+        type: String,
+        default: defaults.modules.autoRoles.description
+      }
     },
     reminders: {
       enabled: {
         type: Boolean,
         default: defaults.modules.reminders.enabled
       },
+      description: {
+        type: String,
+        default: defaults.modules.reminders.description
+      }
     },
   },
 });

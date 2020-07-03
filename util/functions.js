@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
 const { Guild, Member } = require("../models/index");
 
-
-module.exports = client => {
-  client.createGuild = async guild => {
+module.exports = (client) => {
+  client.createGuild = async (guild) => {
     const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, guild);
     const createGuild = await new Guild(merged);
-    createGuild.save().then((g) => console.log(`Nouveau serveur -> ${g.guildName}`));
+    createGuild
+      .save()
+      .then((g) => console.log(`Nouveau serveur -> ${g.guildName}`));
   };
 
   client.getGuild = async (guild) => {
     const data = await Guild.findOne({ guildID: guild.id });
     if (data) return data;
-    return client.config.defaultSettings;
+    else return;
   };
 
   client.updateGuild = async (guild, settings) => {
@@ -21,12 +22,33 @@ module.exports = client => {
     for (const key in settings) {
       if (data[key] !== settings[key]) data[key] = settings[key];
     }
-    return data.updateOne(settings);
+    return data;
   };
-  client.createMember = async member => {
+
+  client.getAllGuilds = async () => {
+    const data = await Guild.find();
+    if (data) return data;
+    else return;
+  };
+
+  client.removeGuild = async (guild) => {
+    await Guild.findOneAndDelete({ guildID: guild.id });
+  };
+
+  client.removeAllGuilds = async () => {
+    const data = await Guild.find();
+    for (let i in data) {
+      data[i].deleteOne();
+      i++;
+    }
+  };
+
+  client.createMember = async (member) => {
     const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, member);
     const createMember = await new Member(merged);
-    createMember.save().then((m) => console.log(`Nouveau Membre -> ${m.nickname}`));
+    createMember
+      .save()
+      .then((m) => console.log(`Nouveau Membre -> ${m.memberDisplayName}`));
   };
 
   client.getMember = async (member) => {
@@ -46,11 +68,19 @@ module.exports = client => {
 
   client.getAllMembers = async () => {
     const data = await Member.find();
-    if (data) return data;
+    if (data.length > 0) return data;
     else return;
   };
 
   client.removeMember = async (member) => {
-    const data = await Member.findOneAndDelete({ memberID: member.id });
+    await Member.findOneAndDelete({ memberID: member.id });
+  };
+
+  client.removeAllMembers = async () => {
+    const data = await Member.find();
+    for (let i in data) {
+      data[i].deleteOne();
+      i++;
+    }
   };
 };

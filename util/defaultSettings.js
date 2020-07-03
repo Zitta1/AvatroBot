@@ -6,6 +6,7 @@ module.exports = {
     modules: {
       logs: {
         enabled: false,
+        description: "Consigne tous les évenements dans un salon assigné",
         eventsEnabled: {
           channelCreate: false,
           channelDelete: false,
@@ -29,35 +30,42 @@ module.exports = {
           webhookUpdate: false,
         },
       },
-      annoucements: {
+      announcements: {
         welcomeMessage: {
-          enabled: false
+          enabled: false,
         },
         leaveMessage: {
-          enabled: false
+          enabled: false,
         },
         memberBanned: {
-          enabled: false
+          enabled: false,
         },
         memberKicked: {
-          enabled: false
-        }
+          enabled: false,
+        },
+        enabled: false,
+        description: "Envoie un message préenregistré",
       },
       moderation: {
-        enabled: true
+        enabled: true,
+        description: "Active/Désactive les commandes de modération"
       },
       AFK: {
-        enabled: false
+        enabled: false,
+        description: "Permet à un membre de configurer un message qui sera envoyé si un autre membre le mentionne",
       },
       autoMessage: {
-        enabled: false
+        enabled: false,
+        description: "envoie un message préenregistré quand un certain message est envoyé par un membre",
       },
       autoRoles: {
-        enabled: false
+        enabled: false,
+        description: "Assigne un ou plusieurs rôle(s) à un nouveau membre"
       },
       reminders: {
-        enabled: false
-      }
-    }
+        enabled: false,
+        description: "Permet auw membres de configurer un message qui sera envoyé automatiquement dans un temps défini"
+      },
+    },
   },
 };

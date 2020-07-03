@@ -2,7 +2,7 @@ const { Collection } = require("discord.js");
 
 module.exports = async (client, message) => {
   const settings = await client.getGuild(message.guild);
-  let memberSettings = await client.getMember(message.member);
+  /*let memberSettings = await client.getMember(message.member);
   if (!memberSettings) {
     await client.createMember({
       memberID: message.member.id,
@@ -10,8 +10,10 @@ module.exports = async (client, message) => {
     });
     memberSettings = await client.getMember(message.member);
   }
-  console.log(memberSettings);
-  const prefix = settings.prefix;
+  console.log(memberSettings);*/
+  let prefix;
+  if (settings == undefined) prefix = ">";
+  else prefix = settings.prefix;
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const commandName = args.shift().toLowerCase();
 
@@ -58,5 +60,5 @@ module.exports = async (client, message) => {
   tStamps.set(message.author.id, timeNow);
   setTimeout(() => tStamps.delete(message.author.id), cdAmount);
 
-  command.run(client, message, args, settings, memberSettings);
+  command.run(client, message, args, settings /*, memberSettings*/);
 };
