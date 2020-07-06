@@ -72,7 +72,7 @@ module.exports = {
       case "getmember": {
         const member = await message.guild.member(args[1]);
         if (!member) return client.memberNotFound();
-        let data = await client.getMember(member);
+        let data = await client.getDbMember(member);
         if (data == undefined)
           return message.channel.send(`aucun membre trouvé`);
         return message.channel.send(data, { code: "js" });
