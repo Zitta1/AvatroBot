@@ -1,11 +1,14 @@
 module.exports = {
   name: "",
   aliases: [""],
-  run: (client, message, args, settings) => {
-
+  run: async (client, message, args, settings) => {
+    if (client.isIgnored() == true) return;
+    message.delete();
+    
   },
   cooldown: 5,
   usage: "",
   description: "",
-  category: ""
+  category: "",
+  permission: "",
 };

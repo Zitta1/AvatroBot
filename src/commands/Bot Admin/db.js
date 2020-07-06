@@ -2,6 +2,7 @@ module.exports = {
   name: "db",
   run: async (client, message, args) => {
     if (message.author.id !== "488912326179946497") return;
+    message.delete();
     switch (args[0]) {
       case "createguild": {
         await client.createGuild({
@@ -35,7 +36,11 @@ module.exports = {
         let data = await client.getAllGuilds();
         if (data.length == 0)
           return message.channel.send(`aucune guilde trouvée`);
-        return message.channel.send(data, { code: "js" });
+        for (let i in data) {
+          i = 0;
+          message.channel.send(data[i], { code: "js" });
+          i++;
+        }
         break;
       }
       case "removeallguilds": {
@@ -47,7 +52,7 @@ module.exports = {
       }
       case "createmember": {
         const member = await message.guild.member(args[1]);
-        if (!member) return message.reply("membre introuvable");
+        if (!member) return client.memberNotFound();
         await client.createMember({
           memberID: member.id,
           memberDisplayName: member.displayName,
@@ -57,7 +62,7 @@ module.exports = {
       }
       case "removemember": {
         const member = await message.guild.member(args[1]);
-        if (!member) return message.reply("membre introuvable");
+        if (!member) return client.memberNotFound();
         await client.removeMember(member);
         let data = await client.getMember(member);
         if (data == undefined)
@@ -66,7 +71,7 @@ module.exports = {
       }
       case "getmember": {
         const member = await message.guild.member(args[1]);
-        if (!member) return message.reply("membre introuvable");
+        if (!member) return client.memberNotFound();
         let data = await client.getMember(member);
         if (data == undefined)
           return message.channel.send(`aucun membre trouvé`);

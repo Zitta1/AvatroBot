@@ -8,7 +8,8 @@ module.exports = {
       return text
     };
 
-    if (message.member.id !== "488912326179946497") return false;
+    if (message.member.id !== "488912326179946497") return console.log(`${message.author.tag}, (${message.author.id}) à essayé d'éxécuter la commande eval depuis le serveur ${message.guild.name} (${message.guild.id})`);
+    message.delete();
     const code = args.join(" ");
     if (!code) return false;
     try {

@@ -1,10 +1,8 @@
 module.exports = {
   name: "test",
   run: async (client, message, args, settings) => {
-    const setings = require("../../../util/defaultSettings");
-    let data = setings.DEFAULTSETTINGS.modules.logs.enabled
-    {data: true}
-    console.log(settings.modules["logs"]);
+    message.react("728546006614147083");
+    console.log(client.isIgnored() == true);
   },
   cooldown: 0,
 };

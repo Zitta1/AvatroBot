@@ -9,7 +9,7 @@ const member = message.mentions.members.first() ||
     if (!member) return message.channel.send(replies.userNotFound[Math.floor(Math.random() * replies.userNotFound.length)].replace("{args[0]}", args[0]));
 
 no perms
-if (!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send(replies.clientNoPerms[Math.floor(Math.random() * replies.clientNoPerms.length)]);
+if (!client.checkPerms("BAN_MEMBERS")) return message.channel.send(replies.clientNoPerms[Math.floor(Math.random() * replies.clientNoPerms.length)]);
 
 user not found
 if (!member) return message.channel.send(replies.userNotFound[Math.floor(Math.random() * replies.userNotFound.length)].replace("{args[0]}", args[0]));

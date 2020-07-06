@@ -9,6 +9,7 @@ const guildSchema = mongoose.Schema({
     type: String,
     default: defaults.prefix,
   },
+  
   modules: {
     logs: {
       enabled: {
@@ -142,7 +143,12 @@ const guildSchema = mongoose.Schema({
         default: defaults.modules.moderation.enabled
       },
       moderatorRole: {
-        type: String
+        type: String,
+        default: defaults.modules.moderation.moderatorRole
+      },
+      ignoredRole: {
+        type: String,
+        default: defaults.modules.moderation.ignoredRole
       },
       description: {
         type: String,

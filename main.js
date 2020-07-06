@@ -2,7 +2,7 @@ const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 require("dotenv").config();
 
-const client = new Client({ messageCacheMaxSize: 1000, disableMentions: "everyone"});
+const client = new Client({ messageCacheMaxSize: 1000 });
 require("./util/functions")(client);
 client.mongoose = require("./util/mongoose.js");
 client.commands = new Collection();

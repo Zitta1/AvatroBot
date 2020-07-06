@@ -2,11 +2,10 @@ module.exports = {
   name: "roleinfo",
   aliases: ["ri"],
   run: async (client, message, args) => {
-    let role =
-      message.mentions.roles.first() ||
-      (await message.guild.roles.fetch(args[0]));
-    if (!role) return message.channel.send(`Je n'arrive pas à trouver ce rôle`);
-    console.log(role);
+    if (client.isIgnored() == true) return;
+    message.delete();
+    let role = client.getRole(args[0]);
+    if (!role) return client.roleNotFound();
     let roleCreatedAt = role.createdAt
       .toString()
       .substr(4, 11)
@@ -89,5 +88,6 @@ module.exports = {
   cooldown: 5,
   usage: "<role_mention || role_id>",
   description: "Renvoie les informations sur un rôle",
-  category: "role manager",
+  category: "Informations",
+  permissions: "Aucune",
 };

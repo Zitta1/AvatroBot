@@ -48,7 +48,9 @@ module.exports = {
       },
       moderation: {
         enabled: true,
-        description: "Active/Désactive les commandes de modération"
+        description: "Active/Désactive les commandes de modération",
+        moderatorRole: "none",
+        ignoredRole: "none"
       },
       AFK: {
         enabled: false,
