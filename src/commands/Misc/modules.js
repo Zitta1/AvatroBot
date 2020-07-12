@@ -3,8 +3,9 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   name: "modules",
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
+    if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
     if (!args[0]) {
       const embed = new MessageEmbed()
         .setTitle("État des modules")
@@ -12,41 +13,37 @@ module.exports = {
           `<:enabled:728220529303224320>: module activé\n<:disabled:728220530418647060>: module désactivé\nPour avoir plus d'information sur un module, tapez \`${settings.prefix}modules <module_name>\`\nPour activer/désactiver un module, tapez\n\`${settings.prefix}modules <module_name> <enable || disable>\``
         )
         .setColor("#5991bd")
-        .setAuthor("", message.author.avatarURL())
+        .setAuthor("", message.author.avatarURL({ dynamic: true }))
         .setTimestamp()
         .setFooter(`ID: ${message.author.id}`);
       if (settings.modules.logs.enabled == true)
-        embed.addField("Logs:", "<:enabled:728220529303224320>", true);
+        embed.addField("Logs:", client.emotes.enabled, true);
       if (settings.modules.logs.enabled == false)
-        embed.addField("Logs:", "<:disabled:728220530418647060>", true);
+        embed.addField("Logs:", client.emotes.disabled, true);
       if (settings.modules.announcements.enabled == true)
-        embed.addField("Announcements:", "<:enabled:728220529303224320>", true);
+        embed.addField("Announcements:", client.emotes.enabled, true);
       if (settings.modules.announcements.enabled == false)
-        embed.addField(
-          "Announcements:",
-          "<:disabled:728220530418647060>",
-          true
-        );
+        embed.addField("Announcements:", client.emotes.disabled, true);
       if (settings.modules.moderation.enabled == true)
-        embed.addField("Moderation:", "<:enabled:728220529303224320>", true);
+        embed.addField("Moderation:", client.emotes.enabled, true);
       if (settings.modules.moderation.enabled == false)
-        embed.addField("Moderation:", "<:disabled:728220530418647060>", true);
+        embed.addField("Moderation:", client.emotes.disabled, true);
       if (settings.modules.AFK.enabled == true)
-        embed.addField("AFK:", "<:enabled:728220529303224320>", true);
+        embed.addField("AFK:", client.emotes.enabled, true);
       if (settings.modules.AFK.enabled == false)
-        embed.addField("AFK:", "<:disabled:728220530418647060>", true);
+        embed.addField("AFK:", client.emotes.disabled, true);
       if (settings.modules.autoMessage.enabled == true)
-        embed.addField("AutoMessage:", "<:enabled:728220529303224320>", true);
+        embed.addField("AutoMessage:", client.emotes.enabled, true);
       if (settings.modules.autoMessage.enabled == false)
-        embed.addField("AutoMessage:", "<:disabled:728220530418647060>", true);
+        embed.addField("AutoMessage:", client.emotes.disabled, true);
       if (settings.modules.autoRoles.enabled == true)
-        embed.addField("AutoRoles:", "<:enabled:728220529303224320>", true);
+        embed.addField("AutoRoles:", client.emotes.enabled, true);
       if (settings.modules.autoRoles.enabled == false)
-        embed.addField("AutoRoles:", "<:disabled:728220530418647060>", true);
+        embed.addField("AutoRoles:", client.emotes.disabled, true);
       if (settings.modules.reminders.enabled == true)
-        embed.addField("Reminders:", "<:enabled:728220529303224320>", true);
+        embed.addField("Reminders:", client.emotes.enabled, true);
       if (settings.modules.reminders.enabled == false)
-        embed.addField("Reminders:", "<:disabled:728220530418647060>", true);
+        embed.addField("Reminders:", client.emotes.disabled, true);
       return message.channel.send(embed);
     }
 
@@ -83,8 +80,6 @@ module.exports = {
     }
 
     if (args[1]) {
-      if (!client.checkPerms("ADMINISTRATOR"))
-        return client.noPerms();
       const modulesObjects = settings.modules._doc.modules;
       const modulesNames = [];
       for (const name in modulesObjects) {
@@ -103,11 +98,11 @@ module.exports = {
         });
         if (newSetting == true)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Logs\` à bien été activé. Pour plus d'informations sur les options de logs, tapez \`${settings.prefix}logs\`.`
+            `${client.emotes.check} Le module \`Logs\` à bien été activé. Pour plus d'informations sur les options de logs, tapez \`${settings.prefix}logs\`.`
           );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Logs\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`Logs\` à bien été désactivé.`
           );
       }
       if (args[0].toLowerCase() == "announcements") {
@@ -116,11 +111,11 @@ module.exports = {
         });
         if (newSetting == true)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Announcements\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}announcements\``
+            `${client.emotes.check} Le module \`Announcements\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}announcements\``
           );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Announcements\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`Announcements\` à bien été désactivé.`
           );
       }
       if (args[0].toLowerCase() == "moderation") {
@@ -129,11 +124,11 @@ module.exports = {
         });
         if (newSetting == true)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Moderation\` à bien été activé.`
+            `${client.emotes.check} Le module \`Moderation\` à bien été activé.`
           );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Moderation\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`Moderation\` à bien été désactivé.`
           );
       }
       if (args[0].toLowerCase() == "afk") {
@@ -141,10 +136,12 @@ module.exports = {
           "modules.AFK.enabled": newSetting,
         });
         if (newSetting == true)
-          return message.channel.send(`<a:check:728546006614147083> Le module \`AFK\` à bien été activé.`);
+          return message.channel.send(
+            `${client.emotes.check} Le module \`AFK\` à bien été activé.`
+          );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`AFK\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`AFK\` à bien été désactivé.`
           );
       }
       if (args[0].toLowerCase() == "automessage") {
@@ -153,11 +150,11 @@ module.exports = {
         });
         if (newSetting == true)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`AutoMessage\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}automessage\`.`
+            `${client.emotes.check} Le module \`AutoMessage\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}automessage\`.`
           );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`AutoMessage\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`AutoMessage\` à bien été désactivé.`
           );
       }
       if (args[0].toLowerCase() == "autoroles") {
@@ -166,11 +163,11 @@ module.exports = {
         });
         if (newSetting == true)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`AutoRoles\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}autoroles\`.`
+            `${client.emotes.check} Le module \`AutoRoles\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}autoroles\`.`
           );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`AutoRoles\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`AutoRoles\` à bien été désactivé.`
           );
       }
       if (args[0].toLowerCase() == "reminders") {
@@ -179,11 +176,11 @@ module.exports = {
         });
         if (newSetting == true)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Reminders\` à bien été activé.`
+            `${client.emotes.check} Le module \`Reminders\` à bien été activé.`
           );
         if (newSetting == false)
           return message.channel.send(
-            `<a:check:728546006614147083> Le module \`Reminders\` à bien été désactivé.`
+            `${client.emotes.check} Le module \`Reminders\` à bien été désactivé.`
           );
       }
     }

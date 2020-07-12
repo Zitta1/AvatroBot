@@ -1,8 +1,13 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
+const ms = require("ms");
 require("dotenv").config();
 
-const client = new Client({ messageCacheMaxSize: 1000 });
+const client = new Client({
+  messageCacheMaxSize: -1,
+  messageCacheLifetime: ms("4w"),
+  messageSweepInterval: ms("1m"),
+});
 require("./util/functions")(client);
 client.mongoose = require("./util/mongoose.js");
 client.commands = new Collection();

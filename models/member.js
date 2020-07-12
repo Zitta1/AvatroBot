@@ -9,20 +9,28 @@ const memberSchema = mongoose.Schema({
   guildName: String,
   moderations: {
     type: Object,
-    default: {}
+    default: {},
   },
   isIgnored: {
     type: Boolean,
-    default: false
+    default: false,
   },
   rolePersist: {
     type: Object,
-    default: {}
+    default: {},
   },
   afk: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
+  leftTimes: {
+    type: Number,
+    default: 0,
+  },
+  hasLeft: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Member", memberSchema);

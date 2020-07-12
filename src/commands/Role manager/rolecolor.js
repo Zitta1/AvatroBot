@@ -2,9 +2,10 @@ module.exports = {
   name: "rolecolor",
   aliases: ["rc"],
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
+    if (!args[0]) return message.reply(`veuillez définir un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
     if (!args[1])
@@ -15,7 +16,7 @@ module.exports = {
       return message.reply("la couleur dois être en hexadécimal (#000000)");
     role.setColor(args[1]);
     message.channel.send(
-      `<a:check:728546006614147083> La couleur du rôle ${role} a bien été changée`
+      `${client.emotes.check} La couleur du rôle ${role} a bien été changée`
     );
   },
   cooldown: 5,

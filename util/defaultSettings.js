@@ -1,13 +1,13 @@
-const { truncate } = require("fs");
-
 module.exports = {
   DEFAULTSETTINGS: {
     prefix: ">",
+    premium: false,
     modules: {
       logs: {
         enabled: false,
         description: "Consigne tous les évenements dans un salon assigné",
-        eventsEnabled: {
+        logChannel: "none",
+        events: {
           channelCreate: false,
           channelDelete: false,
           channelPinsUpdate: false,
@@ -50,23 +50,27 @@ module.exports = {
         enabled: true,
         description: "Active/Désactive les commandes de modération",
         moderatorRole: "none",
-        ignoredRole: "none"
+        ignoredRole: "none",
+        ignoredChannels: {},
       },
       AFK: {
         enabled: false,
-        description: "Permet à un membre de configurer un message qui sera envoyé si un autre membre le mentionne",
+        description:
+          "Permet à un membre de configurer un message qui sera envoyé si un autre membre le mentionne",
       },
       autoMessage: {
         enabled: false,
-        description: "envoie un message préenregistré quand un certain message est envoyé par un membre",
+        description:
+          "envoie un message préenregistré quand un certain message est envoyé par un membre",
       },
       autoRoles: {
         enabled: false,
-        description: "Assigne un ou plusieurs rôle(s) à un nouveau membre"
+        description: "Assigne un ou plusieurs rôle(s) à un nouveau membre",
       },
       reminders: {
         enabled: false,
-        description: "Permet auw membres de configurer un message qui sera envoyé automatiquement dans un temps défini"
+        description:
+          "Permet aux membres de configurer un message qui sera envoyé automatiquement dans un temps défini",
       },
     },
   },

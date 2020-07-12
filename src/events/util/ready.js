@@ -1,7 +1,7 @@
 module.exports = (client) => {
   const statuses = [
     "préfixe par défaut: >",
-    "Un problème avec le bot? rejoignez le serveur de support: https://discord.gg/6rzmURK",
+    "Un problème avec le bot? rejoignez le serveur de support: https://discord.gg/5N8HDB",
   ];
   let si = 0;
   let seconds = 20;

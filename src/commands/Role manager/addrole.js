@@ -2,11 +2,13 @@ module.exports = {
   name: "addrole",
   aliases: ["ar", "roleadd", "ra"],
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
     if (!args[0])
-      return message.channel.send("Veuillez définir le nom du rôle");
+      return message.reply("veuillez définir le nom du rôle");
+    if (args[0].startsWith("\`\`\`")) return message.reply(`nom invalide`);
+    if (args[0] == "everyone" || args[0] == "here") return message.reply(`nom invalide`);
     if (args[1]) {
       if (!args[1].startsWith("#") || args[1].length !== 7)
         return message.reply(
@@ -30,7 +32,7 @@ module.exports = {
     });
     const newRole = client.getRole(args[0]);
     message.channel.send(
-      `<a:check:728546006614147083> Le rôle ${newRole} à été créé`
+      `${client.emotes.check} Le rôle ${newRole} à été créé`
     );
     newRole.setMentionable(false);
   },

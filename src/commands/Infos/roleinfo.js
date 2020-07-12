@@ -2,8 +2,9 @@ module.exports = {
   name: "roleinfo",
   aliases: ["ri"],
   run: async (client, message, args) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
+    if (!args[0]) return message.reply(`veuillez spécifier un rôle`);
     let role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
     let roleCreatedAt = role.createdAt
@@ -25,7 +26,7 @@ module.exports = {
       embed: {
         color: role.hexColor,
         author: {
-          icon_url: message.author.avatarURL(),
+          icon_url: message.author.displayAvatarURL({ dynamic: true }),
         },
         fields: [
           {
@@ -86,8 +87,8 @@ module.exports = {
     });
   },
   cooldown: 5,
-  usage: "<role_mention || role_id>",
+  usage: "<role_mention || role_id || role_name>",
   description: "Renvoie les informations sur un rôle",
-  category: "Informations",
+  category: "Infos",
   permissions: "Aucune",
 };

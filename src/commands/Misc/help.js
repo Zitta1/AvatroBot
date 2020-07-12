@@ -7,16 +7,17 @@ const categoryList = readdirSync("./src/commands/").filter(
 module.exports = {
   name: "help",
   aliases: ["h"],
-  run: (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+  run: async (client, message, args, settings) => {
+    if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!args.length) {
       const embed = new MessageEmbed()
-        .setColor("#301df8")
+        .setColor("#5991bd")
         .setTitle("Liste des commandes")
         .setDescription(
           `Pour plus d'informations sur une commande, tapez \`${settings.prefix}help <command_name>\`.`
-        );
+        )
+        .setAuthor("", message.author.displayAvatarURL({ dynamic: true }));
       for (const cat of categoryList) {
         embed.addField(
           cat,
@@ -39,6 +40,9 @@ module.exports = {
       const embed = new MessageEmbed()
         .setColor("#5991bd")
         .setTitle(`\`${command.name}\``)
+        .setDescription(
+          "`<>`: paramètre requis\n`[]`: paramètre optionel\n`<option1 || option 2>`: séléctioner une de ces options"
+        )
         .addField(
           "Description",
           `${command.description} (cooldown: ${command.cooldown} secs)`
@@ -46,12 +50,12 @@ module.exports = {
         .addField(
           "Utilisation",
           command.usage
-            ? `${settings.prefix}${command.name} ${command.usage}`
-            : `${settings.prefix}${command.name}`
+            ? `\`${settings.prefix}${command.name} ${command.usage}\``
+            : `\`${settings.prefix}${command.name}\``
         )
         .addField("Permissions requises", command.permission);
 
-      if (command.aliases.length > 0)
+      if (command.aliases)
         embed.addField("Alias", `${command.aliases.join(", ")}`);
       return message.channel.send(embed);
     }

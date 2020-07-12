@@ -2,21 +2,22 @@ module.exports = {
   name: "mentionable",
   aliases: ["setmentionable"],
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
+    if (!args[0]) return message.reply(`veuillez définir un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
     if (role.mentionable == true) {
       role.setMentionable(false);
       return message.channel.send(
-        `<a:check:728546006614147083> Le rôle ${role} n'est plus mentionable`
+        `${client.emotes.check} Le rôle ${role} n'est plus mentionable`
       );
     }
     if (role.mentionable == false) {
       role.setMentionable(true);
       return message.channel.send(
-        `<a:check:728546006614147083> Le rôle ${role} est maintenant mentionable`
+        `${client.emotes.check} Le rôle ${role} est maintenant mentionable`
       );
     }
   },

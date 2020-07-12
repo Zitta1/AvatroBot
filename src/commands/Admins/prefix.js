@@ -2,7 +2,7 @@ module.exports = {
   name: "prefix",
   aliases: ["p"],
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!args[0])
       return message.channel.send(
@@ -10,13 +10,15 @@ module.exports = {
       );
     if (args[0] == "reset") {
       await client.updateGuild(message.guild, { prefix: ">" });
-      return message.channel.send(`<a:check:728546006614147083> Préfixe réinitialisé: \`>\``);
+      return message.channel.send(
+        `${client.emotes.check} Préfixe réinitialisé: \`>\``
+      );
     }
     if (args[0]) {
       const newSetting = args.join(" ");
       await client.updateGuild(message.guild, { prefix: newSetting });
       return message.channel.send(
-        `<a:check:728546006614147083> Préfixe mis à jour, ancien préfixe: \`${settings.prefix}\` nouveau préfixe: \`${newSetting}\``
+        `${client.emotes.check} Préfixe mis à jour, ancien préfixe: \`${settings.prefix}\` nouveau préfixe: \`${newSetting}\``
       );
     }
   },

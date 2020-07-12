@@ -51,11 +51,16 @@ module.exports = {
         break;
       }
       case "createmember": {
-        const member = await message.guild.member(args[1]);
-        if (!member) return client.memberNotFound();
+        const member =
+          (await message.mentions.members.first()) ||
+          (await message.guild.member(args[1])) ||
+          message.member;
         await client.createMember({
-          memberID: member.id,
-          memberDisplayName: member.displayName,
+          memberID: message.member.id,
+          memberDisplayName: message.member.displayName,
+          memberTag: message.author.tag,
+          guildID: message.guild.id,
+          guildName: message.guild.name,
         });
         message.channel.send("true", { code: "js" });
         break;
@@ -70,9 +75,12 @@ module.exports = {
         break;
       }
       case "getmember": {
-        const member = await message.guild.member(args[1]);
+        const member =
+          message.mentions.members.first() ||
+          (await message.guild.member(args[1])) ||
+          message.member;
         if (!member) return client.memberNotFound();
-        let data = await client.getDbMember(member);
+        let data = await client.getDbMember(member, message.guild);
         if (data == undefined)
           return message.channel.send(`aucun membre trouvé`);
         return message.channel.send(data, { code: "js" });
@@ -82,7 +90,9 @@ module.exports = {
         let data = await client.getAllMembers();
         if (data == undefined)
           return message.channel.send(`aucun membre trouvé`);
-        return message.channel.send(data, { code: "js" });
+        for (let i in data) {
+          message.channel.send(data[i], { code: "js" });
+        };
         break;
       }
       case "removeallmembers": {

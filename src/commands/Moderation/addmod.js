@@ -2,7 +2,7 @@ module.exports = {
   name: "addmod",
   aliases: ["am"],
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!client.checkPerms("ADMINISTRATOR"))
       return message.reply(
@@ -10,13 +10,14 @@ module.exports = {
       );
     if (client.isEnabled("moderation") == false)
       return client.moduleDisabled("moderation");
+    if (!args[0]) return message.reply(`veuillez spécifier un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
     await client.updateGuild(message.guild, {
       "modules.moderation.moderatorRole": role.id,
     });
     message.channel.send(
-      `<a:check:728546006614147083> Le role ${role} à bien été défini comme rôle modérateur`
+      `${client.emotes.check} Le role ${role} à bien été défini comme rôle modérateur`
     );
   },
   cooldown: 5,

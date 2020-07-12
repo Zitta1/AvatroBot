@@ -1,8 +1,20 @@
 module.exports = async (client, guild) => {
-  const newGuild = {
+  await client.createGuild({
     guildID: guild.id,
     guildName: guild.name
-  };
+  })
 
-  await client.createGuild(newGuild)
+  const members = guild.members.cache.map(m => m);
+  for (let i in members) {
+    if (members[i].user.bot) return
+    await client.createMember({
+      memberID: members[i].id,
+      memberTag: members[i].user.tag,
+      memberDisplayName: members[i].displayName,
+      guildID: guild.id,
+      guildName: guild.name
+    });
+    console.log(`${members[i].user.tag} à été créé`);
+  };
+  console.log(`${members.length} membre(s) ajouté(s)`);
 };

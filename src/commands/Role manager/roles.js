@@ -3,7 +3,7 @@
 module.exports = {
   name: "roles",
   run: async (client, message, args, settings) => {
-    if (client.isIgnored() == true) return;
+    if ((await client.isIgnored()) == true) return;
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
     message.delete();
     const roles = message.guild.roles.cache
