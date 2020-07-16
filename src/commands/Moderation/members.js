@@ -24,8 +24,8 @@ module.exports = {
     return message.channel.send(embed);
   },
   cooldown: 5,
-  usage: "",
-  description: "",
-  category: "",
-  permission: "",
+  usage: `prefixname <role_id || role_mention || role_name>`,
+  description: "Renvoie la liste des membres posédant le rôle spécifié",
+  category: "Moderation",
+  permission: "Gérer les rôles || Modérateur",
 };

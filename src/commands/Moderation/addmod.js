@@ -21,7 +21,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: "<role_id || role_mention || role_name>",
+  usage: `prefixname <role_id || role_mention || role_name>`,
   description:
     "Ajoute un rôle comme étant rôle modérateur\nLes membres possédants ce rôle pourront éxécuter les commandes de modération sans avoir les permissions",
   category: "Moderation",

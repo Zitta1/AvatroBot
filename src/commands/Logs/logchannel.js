@@ -1,5 +1,5 @@
 module.exports = {
-  name: "logchannel",
+  name: "logschannel",
   aliases: ["lc"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
@@ -38,7 +38,7 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: "<channel_id || channel_mention || channel_name>\n<delete>",
+  usage: `prefixname <channel_id || channel_mention || channel_name>\n<delete>`,
   description:
     "Configure l'envoi des message de logs dans le salon indiqué ou supprime le salon de logs exisant",
   category: "Logs",

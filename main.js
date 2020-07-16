@@ -4,9 +4,9 @@ const ms = require("ms");
 require("dotenv").config();
 
 const client = new Client({
-  messageCacheMaxSize: -1,
+  messageCacheMaxSize: Infinity,
   messageCacheLifetime: ms("4w"),
-  messageSweepInterval: ms("1m"),
+  messageSweepInterval: ms("1s"),
 });
 require("./util/functions")(client);
 client.mongoose = require("./util/mongoose.js");

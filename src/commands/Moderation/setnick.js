@@ -17,11 +17,13 @@ module.exports = {
       return message.reply("vous devez spécifier un nom à attribuer");
     member.setNickname(args.slice(1).join(" "));
     message.channel.send(
-      `${client.emotes.check} Le pseudo de ce membre est maintenant \`${args.slice(1).join(" ")}\``
+      `${
+        client.emotes.check
+      } Le pseudo de ce membre est maintenant \`${args.slice(1).join(" ")}\``
     );
   },
   cooldown: 5,
-  usage: "<new_nickname>",
+  usage: `prefixname <new_nickname>`,
   description: "Modifie le pseudo d'un membre spécifié",
   category: "Moderation",
   permission: "Gérer les pseudos || Moderateur",

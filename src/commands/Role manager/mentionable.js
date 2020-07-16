@@ -22,7 +22,7 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: "<role_id || role_mention || role_name>",
+  usage: `prefixname <role_id || role_mention || role_name>`,
   description: `Active / désactive le paramètre "Mentionable par tout le monde du rôle spécifié"`,
   category: "Role Manager",
   permission: "Gérer les rôles",

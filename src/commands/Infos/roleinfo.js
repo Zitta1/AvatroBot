@@ -87,7 +87,7 @@ module.exports = {
     });
   },
   cooldown: 5,
-  usage: "<role_mention || role_id || role_name>",
+  usage: `prefixname <role_mention || role_id || role_name>`,
   description: "Renvoie les informations sur un rôle",
   category: "Infos",
   permissions: "Aucune",

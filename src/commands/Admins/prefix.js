@@ -23,7 +23,7 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: "[new_prefix]",
+  usage: `prefixname [new_prefix]`,
   description: "Renvoie le préfixe actuel, ou change le préfixe",
   category: "Admins",
   permission: "Administrateur",

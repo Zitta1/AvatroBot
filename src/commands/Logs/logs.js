@@ -67,7 +67,7 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: "[log_code]",
+  usage: `prefixname [log_code]`,
   description:
     "Renvoie la liste des diférents logs\nRenvoie les informations sur un log",
   category: "Logs",

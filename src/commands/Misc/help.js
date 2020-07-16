@@ -46,22 +46,37 @@ module.exports = {
         .addField(
           "Description",
           `${command.description} (cooldown: ${command.cooldown} secs)`
-        )
-        .addField(
+        );
+      if (command.usage)
+        embed.addField(
           "Utilisation",
-          command.usage
-            ? `\`${settings.prefix}${command.name} ${command.usage}\``
-            : `\`${settings.prefix}${command.name}\``
-        )
-        .addField("Permissions requises", command.permission);
-
+          `\`${command.usage
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("prefix", settings.prefix)
+            .replace("name", command.name)
+            .replace("name", command.name)
+            .replace("name", command.name)
+            .replace("name", command.name)
+            .replace("name", command.name)
+            .replace("name", command.name)
+            .replace("name", command.name)
+            .replace("name", command.name)}\``
+        );
+      else embed.addField("Utilisation", `${settings.prefix}${command.name}`);
+      embed.addField("Permissions requises", command.permission);
       if (command.aliases)
         embed.addField("Alias", `${command.aliases.join(", ")}`);
       return message.channel.send(embed);
     }
   },
   cooldown: 5,
-  usage: "[command_name]",
+  usage: `prefixname [command_name]`,
   description: "Renvoie ce message",
   category: "Misc",
   permission: "Aucune",

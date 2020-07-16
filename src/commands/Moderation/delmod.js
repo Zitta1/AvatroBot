@@ -18,7 +18,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: "<role_id || role_mention || role_name>",
+  usage: `prefixname <role_id || role_mention || role_name>`,
   description: "Supprime un rôle modérateur",
   category: "Moderation",
   permission: "Administrateur",

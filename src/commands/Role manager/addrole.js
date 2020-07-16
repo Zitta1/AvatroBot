@@ -5,10 +5,10 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
-    if (!args[0])
-      return message.reply("veuillez définir le nom du rôle");
-    if (args[0].startsWith("\`\`\`")) return message.reply(`nom invalide`);
-    if (args[0] == "everyone" || args[0] == "here") return message.reply(`nom invalide`);
+    if (!args[0]) return message.reply("veuillez définir le nom du rôle");
+    if (args[0].startsWith("```")) return message.reply(`nom invalide`);
+    if (args[0] == "everyone" || args[0] == "here")
+      return message.reply(`nom invalide`);
     if (args[1]) {
       if (!args[1].startsWith("#") || args[1].length !== 7)
         return message.reply(
@@ -37,7 +37,7 @@ module.exports = {
     newRole.setMentionable(false);
   },
   cooldown: 5,
-  usage: "<name> [hexcolor] [true || false] ",
+  usage: `prefixname <name> [hexcolor] [true || false]`,
   description:
     "Créé un nouveau role, avec une couleur en hexacolor (optionel) et si séparé des autres (optionel)",
   category: "Role Manager",

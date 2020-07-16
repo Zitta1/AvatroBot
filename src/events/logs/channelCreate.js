@@ -1,11 +1,9 @@
 module.exports = async (client, channel) => {
   if (channel.type == "dm") return;
-  console.log(client);
   if (client.isEnabled("logs") == false) return;
   if (client.eventEnabled("channelCreate") == false) return;
   const logChannel = client.logChannel();
   if (!logChannel) return;
-  return console.log(logChannel);
   const { MessageEmbed } = require("discord.js");
   const embed = new MessageEmbed()
     .setTimestamp()

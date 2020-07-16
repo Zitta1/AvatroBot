@@ -186,10 +186,9 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: "[module_name] [enable || disable]",
+  usage: `prefixname [module_name] [enable || disable]`,
   description:
     "Affiche la liste des modules et leur état\nActive ou désactive un module",
-  category: "Misc",
-  permission:
-    "Aucunes si liste des modules et infos / Administrateur si activation / désactivation",
+  category: "Admins",
+  permission: "Administrateur",
 };

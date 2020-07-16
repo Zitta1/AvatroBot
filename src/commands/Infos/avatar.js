@@ -16,9 +16,9 @@ module.exports = {
     return message.channel.send(embed);
   },
   cooldown: 5,
-  usage: "[member_id || member_mention || member_name]",
+  usage: `prefixname [member_id || member_mention || member_name]`,
   description:
-    "Renvoie la photo de profile de l'utilisateur spécifié, ou sa propre photo de profile",
+    "Renvoie la photo de profil de l'utilisateur spécifié, ou sa propre photo de profil",
   category: "Infos",
   permission: "Aucunes",
 };

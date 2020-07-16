@@ -103,7 +103,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: "<log_code>",
+  usage: `prefixname <log_code>`,
   description: "Active le log spécifié",
   category: "Logs",
   permission: "Administrateur",

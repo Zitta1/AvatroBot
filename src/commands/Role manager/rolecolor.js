@@ -20,7 +20,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: "<role_id || role_mention || role_name> <hexacolor>",
+  usage: `prefixname <role_id || role_mention || role_name> <hexacolor>`,
   description: "Change la couleur du rôle indiqué",
   category: "Role Manager",
   permission: "Gérer les rôles",

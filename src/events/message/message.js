@@ -1,6 +1,7 @@
 const { Collection } = require("discord.js");
 
 module.exports = async (client, message) => {
+  if (message.channel.type == "dm") return;
   if (message.author.bot) return;
   const settings = await client.getGuild(message.guild);
   let memberSettings = await client.getDbMember(message.member, message.guild);

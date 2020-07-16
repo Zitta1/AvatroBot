@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: "<member_id || member_mention || member_name>",
+  usage: `prefixname <member_id || member_mention || member_name>`,
   description:
     "Ajoute / retire un membre pour lequel les commandes seront ignorées",
   category: "Moderation",
