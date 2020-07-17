@@ -4,12 +4,7 @@ module.exports = {
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
     message.delete();
-    if (
-      !client.checkPerms("MANAGE_ROLES") &&
-      !client.checkPerms("BAN_MEMBERS") &&
-      !client.checkPerms("KICK_MEMBERS") &&
-      !client.isMod()
-    )
+    if (!client.checkPerms("MANAGE_ROLES") && !client.isMod())
       return client.noPerms();
     if (client.isEnabled("moderation") == false)
       return client.moduleDisabled("moderation");
@@ -24,29 +19,35 @@ module.exports = {
         `commande interdite, le membre ${member} est modérateur`
       );
     else {
-      let mutedRole = message.guild.roles.cache.find(r => r.name == "muted");
+      let mutedRole = message.guild.roles.cache.find((r) => r.name == "muted");
       if (!mutedRole) {
         await message.guild.roles.create({
           data: {
             name: "muted",
             color: "#000",
-            permissions: []
-          }
+            permissions: [],
+          },
         });
 
-        message.guild.channels.cache.forEach(async (channel, id) => {
-          await channel.updateOverwrite(mutedRole, {
-            SEND_MESSAGES: false,
-            ADD_REACTIONS: false,
-            CONNECT: false
-          });
+        mutedRole = message.guild.roles.cache.find((r) => r.name == "muted");
+      }
+      const channels = message.guild.channels.cache.map((ch) => ch);
+
+      for (let i in channels) {
+        await channels[i].updateOverwrite(mutedRole, {
+          SEND_MESSAGES: false,
+          ADD_REACTIONS: false,
+          CONNECT: false,
         });
       }
+
+      member.roles.add(mutedRole);
     }
   },
   cooldown: 5,
-  usage: "prefixname",
-  description: "",
-  category: "",
-  permission: "",
+  usage: "prefixname <member_id || member_mention || member_name> [time]",
+  description:
+    "Empêche le membre mentioné d'envoyer des messages et de se connecter à un salon vocal",
+  category: "Moderation",
+  permission: "Modérateur",
 };
