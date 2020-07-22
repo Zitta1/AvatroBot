@@ -4,7 +4,7 @@ module.exports = {
   name: "modules",
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
     if (!args[0]) {
       const embed = new MessageEmbed()

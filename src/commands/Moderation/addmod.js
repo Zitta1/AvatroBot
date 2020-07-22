@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["am"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR"))
       return message.reply(
         "vous n'avez pas les permissions pour effectuer cette commande"
@@ -21,7 +21,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: `prefixname <role_id || role_mention || role_name>`,
+  usage: `prefixname <role>`,
   description:
     "Ajoute un rôle comme étant rôle modérateur\nLes membres possédants ce rôle pourront éxécuter les commandes de modération sans avoir les permissions",
   category: "Moderation",

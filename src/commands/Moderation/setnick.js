@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["sn"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_NICKNAMES") && !client.isMod())
       return client.noPerms();
     if (client.isEnabled("moderation") == false)

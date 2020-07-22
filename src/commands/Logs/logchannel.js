@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["lc"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
     if (client.isEnabled("logs") == false) return client.moduleDisabled("logs");
     if (!args[0]) return message.reply("vous devez indiquer un channel");
@@ -38,7 +38,7 @@ module.exports = {
     }
   },
   cooldown: 5,
-  usage: `prefixname <channel_id || channel_mention || channel_name>\n<delete>`,
+  usage: `prefixname <channel>\nprefixname delete`,
   description:
     "Configure l'envoi des message de logs dans le salon indiqué ou supprime le salon de logs exisant",
   category: "Logs",

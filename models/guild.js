@@ -13,6 +13,10 @@ const guildSchema = mongoose.Schema({
     type: Boolean,
     default: defaults.premium,
   },
+  autoDelete: {
+    type: Boolean,
+    default: defaults.autoDelete,
+  },
   modules: {
     logs: {
       enabled: {
@@ -380,6 +384,10 @@ const guildSchema = mongoose.Schema({
       ignoredChannels: {
         type: Object,
         default: defaults.modules.moderation.ignoredChannels,
+      },
+      cases: {
+        type: Array,
+        default: [],
       },
     },
     AFK: {

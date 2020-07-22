@@ -3,11 +3,11 @@ module.exports = {
   aliases: [""],
   run: async (client, message, args, settings) => {
     if (await client.isIgnored() == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     
   },
   cooldown: 5,
-  usage: `prefix`,
+  usage: "prefixname",
   description: "",
   category: "",
   permission: "",

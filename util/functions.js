@@ -8,6 +8,7 @@ module.exports = (client, message, settings, memberSettings) => {
     createGuild
       .save()
       .then((g) => console.log(`Nouveau serveur -> ${g.guildName}`));
+    return true;
   };
 
   client.getGuild = async (guild) => {
@@ -20,7 +21,7 @@ module.exports = (client, message, settings, memberSettings) => {
     let data = await client.getGuild(guild);
     if (typeof data !== "object") data = {};
     await data.updateOne(settings);
-    return data;
+    return true;
   };
 
   client.getAllGuilds = async (value) => {
@@ -31,20 +32,22 @@ module.exports = (client, message, settings, memberSettings) => {
 
   client.removeGuild = async (guild) => {
     await Guild.findOneAndDelete({ guildID: guild.id });
+    return true;
   };
 
   client.removeAllGuilds = async () => {
     const data = await Guild.find();
     for (let i in data) {
       data[i].deleteOne();
-      i++;
     }
+    return true;
   };
 
   client.createMember = async (member) => {
     const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, member);
     const createMember = await new Member(merged);
     createMember.save();
+    return true;
   };
 
   client.getDbMember = async (member, guild) => {
@@ -63,6 +66,7 @@ module.exports = (client, message, settings, memberSettings) => {
     });
     data[way] = newSettings;
     await data.save();
+    return true;
   };
 
   client.getAllMembers = async (value) => {
@@ -73,13 +77,39 @@ module.exports = (client, message, settings, memberSettings) => {
 
   client.removeMember = async (member) => {
     await Member.findOneAndDelete({ memberID: member.id });
+    return true;
   };
 
   client.removeAllMembers = async () => {
     const data = await Member.find();
     for (let i in data) {
       data[i].deleteOne();
-      i++;
     }
+    return true;
+  };
+
+  client.getIgnoredMembers = async () => {
+    const data = await Member.find({ isIgnored: true });
+    if (data) return data;
+    else return;
+  };
+
+  client.updateModerations = async (member, guild, moderation, value) => {
+    const data = await Member.findOne({
+      guildID: guild.id,
+      memberID: member.id,
+    });
+    data.moderations[moderation].push(value);
+    await data.save();
+    return true;
+  };
+
+  client.updateCases = async (guild, value) => {
+    const data = await Guild.findOne({
+      guildID: guild.id,
+    });
+    data.modules.moderation.cases.push(value);
+    await data.save();
+    return true;
   };
 };

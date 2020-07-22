@@ -9,7 +9,7 @@ module.exports = {
   aliases: ["h"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!args.length) {
       const embed = new MessageEmbed()
         .setColor("#5991bd")
@@ -66,7 +66,37 @@ module.exports = {
             .replace("name", command.name)
             .replace("name", command.name)
             .replace("name", command.name)
-            .replace("name", command.name)}\``
+            .replace("name", command.name)
+            .replace("<member>", "<member_id || member_mention || member_name>")
+            .replace("<member>", "<member_id || member_mention || member_name>")
+            .replace("<member>", "<member_id || member_mention || member_name>")
+            .replace("<member>", "<member_id || member_mention || member_name>")
+            .replace("<member>", "<member_id || member_mention || member_name>")
+            .replace("<role>", "<role_id || role_mention || role_name>")
+            .replace("<role>", "<role_id || role_mention || role_name>")
+            .replace("<role>", "<role_id || role_mention || role_name>")
+            .replace("<role>", "<role_id || role_mention || role_name>")
+            .replace("<role>", "<role_id || role_mention || role_name>")
+            .replace(
+              "<channel>",
+              "<channel_id || channel_mention || channel_name>"
+            )
+            .replace(
+              "<channel>",
+              "<channel_id || channel_mention || channel_name>"
+            )
+            .replace(
+              "<channel>",
+              "<channel_id || channel_mention || channel_name>"
+            )
+            .replace(
+              "<channel>",
+              "<channel_id || channel_mention || channel_name>"
+            )
+            .replace(
+              "<channel>",
+              "<channel_id || channel_mention || channel_name>"
+            )}\``
         );
       else embed.addField("Utilisation", `${settings.prefix}${command.name}`);
       embed.addField("Permissions requises", command.permission);

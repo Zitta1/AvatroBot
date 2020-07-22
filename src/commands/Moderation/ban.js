@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["b"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms() && !client.isMod()) return client.noPerms();
     if (client.isEnabled("moderation") == false)
       return client.moduleDisabled("moderation");
@@ -16,21 +16,70 @@ module.exports = {
         if (!member) return client.memberNotFound();
         let banTime;
         if (
-          args[2].endsWith("s") ||
-          args[2].endsWith("m") ||
-          args[2].endsWith("h") ||
-          args[2].endsWith("d") ||
-          args[2].endsWith("w") ||
-          args[2].endsWith("y")
+          args[1].endsWith("s") ||
+          args[1].endsWith("m") ||
+          args[1].endsWith("h") ||
+          args[1].endsWith("d") ||
+          args[1].endsWith("w") ||
+          args[1].endsWith("y")
         ) {
-          banTime = args[2];
-          if (args[3]) reason = args.slice(3).join(" ");
-        } else if (args[2]) reason = args.slice(3).join(" ");
+          banTime = args[1];
+          if (args[2]) reason = args.slice(3).join(" ");
+        } else if (args[1]) reason = args.slice(3).join(" ");
+        if (!reason) reason = "Pas de raison spécifiée";
         member.ban({ reason: reason });
-        setTimeout(() => {
-          message.guild.members.unban(member.user);
-        }, ms(banTime));
-        break;
+        let bannedAt = new Date()
+          .toString()
+          .substr(4, 11)
+          .replace("Jan", "01")
+          .replace("Feb", "02")
+          .replace("Mar", "03")
+          .replace("Apr", "04")
+          .replace("May", "05")
+          .replace("Jun", "06")
+          .replace("Jul", "07")
+          .replace("Aug", "08")
+          .replace("Sep", "09")
+          .replace("Oct", "10")
+          .replace("Nov", "11")
+          .replace("Dec", "12");
+        await client.updateModerations(member, message.guild, "ban", {
+          moderator: message.member.id,
+          date:
+            bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
+            " " +
+            bannedAt.substr(bannedAt.length - 4) +
+            new Date().getHours() +
+            ":" +
+            new Date().getMinutes(),
+          reason: reason,
+        });
+        await client.updateCases(message.guild, {
+          type: "ban save",
+          date:
+            bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
+            " " +
+            bannedAt.substr(bannedAt.length - 4) +
+            new Date().getHours() +
+            ":" +
+            new Date().getMinutes(),
+          member: member.id,
+          moderator: message.member.id,
+          length: banTime,
+          reason: reason,
+        });
+        if (banTime) {
+          setTimeout(() => {
+            message.guild.members.unban(member.user);
+          }, ms(banTime));
+          message.channel.send(
+            `${client.emotes.check} ${member.user.tag} sera banni pendant ${banTime}: ${reason}`
+          );
+        } else
+          message.channel.send(
+            `${client.emotes.check} ${member.user.tag} à été banni: ${reason}`
+          );
+        return;
       case "match":
         const matched = args.slice(1).join(" ");
         if (!matched)
@@ -81,33 +130,113 @@ module.exports = {
               `${client.emotes.check} Le membre ${membersListClean[i]} a été banni`
             );
             membersListClean[i].ban();
+            let bannedAt = new Date()
+              .toString()
+              .substr(4, 11)
+              .replace("Jan", "01")
+              .replace("Feb", "02")
+              .replace("Mar", "03")
+              .replace("Apr", "04")
+              .replace("May", "05")
+              .replace("Jun", "06")
+              .replace("Jul", "07")
+              .replace("Aug", "08")
+              .replace("Sep", "09")
+              .replace("Oct", "10")
+              .replace("Nov", "11")
+              .replace("Dec", "12");
+            await client.updateModerations(
+              membersListClean[i].id,
+              message.guild,
+              "ban",
+              {
+                moderator: message.member.id,
+                date:
+                  bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
+                  " " +
+                  bannedAt.substr(bannedAt.length - 4),
+              }
+            );
+            await client.updateCases(message.guild, {
+              type: "ban match",
+              date:
+                bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
+                " " +
+                bannedAt.substr(bannedAt.length - 4),
+              member: membersListClean[i].id,
+              moderator: message.member.id,
+              matchText: matched,
+            });
           }
         }
-        break;
+        return;
     }
-    const member = client.getMember(args[0]);
+    const member = client.getMember(args[1]);
     if (!member) return client.memberNotFound();
     let banTime;
     if (
-      args[1].endsWith("s") ||
-      args[1].endsWith("m") ||
-      args[1].endsWith("h") ||
-      args[1].endsWith("d") ||
-      args[1].endsWith("w") ||
-      args[1].endsWith("y")
+      args[2].endsWith("s") ||
+      args[2].endsWith("m") ||
+      args[2].endsWith("h") ||
+      args[2].endsWith("d") ||
+      args[2].endsWith("w") ||
+      args[2].endsWith("y")
     ) {
-      banTime = args[1];
-      if (args[2]) reason = args.slice(3).join(" ");
-    } else if (args[1]) reason = args.slice(3).join(" ");
-    member.ban({ reason: reason });
-    setTimeout(() => {
-      message.guild.members.unban(member.user);
-    }, ms(banTime));
+      banTime = args[2];
+      if (args[3]) reason = args.slice(3).join(" ");
+    } else if (args[2]) reason = args.slice(3).join(" ");
+    if (!reason) reason = "Pas de raison spécifiée";
+    member.ban({ days: 7, reason: reason });
+    let bannedAt = new Date()
+      .toString()
+      .substr(4, 11)
+      .replace("Jan", "01")
+      .replace("Feb", "02")
+      .replace("Mar", "03")
+      .replace("Apr", "04")
+      .replace("May", "05")
+      .replace("Jun", "06")
+      .replace("Jul", "07")
+      .replace("Aug", "08")
+      .replace("Sep", "09")
+      .replace("Oct", "10")
+      .replace("Nov", "11")
+      .replace("Dec", "12");
+    await client.updateModerations(member, message.guild, "ban", {
+      moderator: message.member.id,
+      date:
+        bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
+        " " +
+        bannedAt.substr(bannedAt.length - 4),
+      reason: reason,
+    });
+    await client.updateCases(message.guild, {
+      type: "ban",
+      date:
+        bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
+        " " +
+        bannedAt.substr(bannedAt.length - 4),
+      member: member.id,
+      moderator: message.member.id,
+      length: banTime,
+      reason: reason,
+    });
+    if (banTime) {
+      setTimeout(() => {
+        message.guild.members.unban(member.user);
+      }, ms(banTime));
+      message.channel.send(
+        `${client.emotes.check} ${member.user.tag} sera banni pendant ${banTime}: ${reason}`
+      );
+    } else
+      message.channel.send(
+        `${client.emotes.check} ${member.user.tag} à été banni: ${reason}`
+      );
   },
   cooldown: 0,
-  usage: `prefixname <member_id || member_mention || member_name> [time] [reason]\nprefixname save <member_id || member_mention || member_name> [time] [reason]\nprefixname match <match_text>`,
+  usage: `prefixname <member> [time] [reason]\nprefixname save <member> [time] [reason]\nprefixname match <match_text>`,
   description:
-    "Ban un membre, avec comme option de sauvegarder les messages de ce membre ou alors de ban tous les membres ayant envoyé un message contenant un terme",
+    "Banni un membre, avec comme option de sauvegarder les messages de ce membre ou alors de ban tous les membres ayant envoyé un message contenant un terme",
   category: "Moderation",
   permission: "Modérateur",
 };

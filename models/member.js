@@ -8,8 +8,22 @@ const memberSchema = mongoose.Schema({
   guildID: String,
   guildName: String,
   moderations: {
-    type: Object,
-    default: {},
+    ban: {
+      type: Array,
+      default: [],
+    },
+    mute: {
+      type: Array,
+      default: [],
+    },
+    kick: {
+      type: Array,
+      default: [],
+    },
+    deaf: {
+      type: Array,
+      default: [],
+    },
   },
   isIgnored: {
     type: Boolean,

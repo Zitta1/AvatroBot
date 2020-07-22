@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["ignoreduserremove", "imr", "iur"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
     if (client.isEnabled("moderation") == false)
       return client.moduleDisabled("moderation");
@@ -19,7 +19,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: `prefixname <member_id || member_mention || member_name>`,
+  usage: `prefixname <member>`,
   description: "Retire un membre pour lequel les commandes seront ignorées",
   category: "Moderation",
   permission: "Administrateur",

@@ -2,6 +2,7 @@ module.exports = {
   DEFAULTSETTINGS: {
     prefix: ">",
     premium: false,
+    autoDelete: false,
     modules: {
       logs: {
         enabled: false,

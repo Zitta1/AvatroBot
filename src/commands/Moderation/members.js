@@ -2,7 +2,7 @@ module.exports = {
   name: "members",
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES") && !client.isMod())
       return client.noPerms();
     if (client.isEnabled("moderation") == false)
@@ -24,7 +24,7 @@ module.exports = {
     return message.channel.send(embed);
   },
   cooldown: 5,
-  usage: `prefixname <role_id || role_mention || role_name>`,
+  usage: `prefixname <role>`,
   description: "Renvoie la liste des membres posédant le rôle spécifié",
   category: "Moderation",
   permission: "Gérer les rôles || Modérateur",

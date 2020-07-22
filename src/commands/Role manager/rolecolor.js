@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["rc"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
     if (!args[0]) return message.reply(`veuillez définir un rôle`);
     const role = client.getRole(args[0]);
@@ -20,7 +20,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: `prefixname <role_id || role_mention || role_name> <hexacolor>`,
+  usage: `prefixname <role> <hexacolor>`,
   description: "Change la couleur du rôle indiqué",
   category: "Role Manager",
   permission: "Gérer les rôles",

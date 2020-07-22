@@ -1,8 +1,7 @@
 module.exports = {
   name: "db",
-  run: async (client, message, args) => {
+  run: async (client, message, args, settings) => {
     if (message.author.id !== "488912326179946497") return;
-    message.delete();
     switch (args[0]) {
       case "createguild": {
         await client.createGuild({
@@ -92,7 +91,7 @@ module.exports = {
           return message.channel.send(`aucun membre trouvé`);
         for (let i in data) {
           message.channel.send(data[i], { code: "js" });
-        };
+        }
         break;
       }
       case "removeallmembers": {

@@ -55,7 +55,7 @@ module.exports = {
     setTimeout(() => message.delete(), 30000);
   },
   cooldown: 5,
-  usage: `prefixname <channel> <message>\nprefixname everyone <channel> <message>\nprefixname here <channel> <message>\nprefixname role <role_mention || role_name || role_id> <channel> <message>`,
+  usage: `prefixname <channel> <message>\nprefixname everyone <channel> <message>\nprefixname here <channel> <message>\nprefixname role <role> <channel> <message>`,
   description:
     "Envoie un message dans un salon textuel défini, avec la mention here/everyone ou la mention d'un rôle en option",
   category: "Admins",

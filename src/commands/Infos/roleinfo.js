@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["ri"],
   run: async (client, message, args) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!args[0]) return message.reply(`veuillez spécifier un rôle`);
     let role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
@@ -87,7 +87,7 @@ module.exports = {
     });
   },
   cooldown: 5,
-  usage: `prefixname <role_mention || role_id || role_name>`,
+  usage: `prefixname <role>`,
   description: "Renvoie les informations sur un rôle",
   category: "Infos",
   permissions: "Aucune",

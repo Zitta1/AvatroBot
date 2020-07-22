@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["ar", "roleadd", "ra"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
     if (!args[0]) return message.reply("veuillez définir le nom du rôle");
     if (args[0].startsWith("```")) return message.reply(`nom invalide`);

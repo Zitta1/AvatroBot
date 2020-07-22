@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["p"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!args[0])
       return message.channel.send(
         `Préfixe actuel sur ce serveur: \`${settings.prefix}\``

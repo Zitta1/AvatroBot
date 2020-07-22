@@ -6,7 +6,7 @@ module.exports = {
   aliases: ["rl"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
     if (client.isEnabled("logs") == false) return client.moduleDisabled("logs");
     const logsList = [];

@@ -5,7 +5,7 @@ module.exports = {
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     const roles = message.guild.roles.cache
       .map((r) => r.name)
       .filter((r) => r !== "@everyone")

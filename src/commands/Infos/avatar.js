@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["getpfp", "getpdp", "pfp", "pdp", "getavatar"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     const member = client.getMember(args[0]) || message.member;
     const embed = new MessageEmbed()
       .setTitle(`Photo de profil de ${member.displayName}`)
@@ -16,7 +16,7 @@ module.exports = {
     return message.channel.send(embed);
   },
   cooldown: 5,
-  usage: `prefixname [member_id || member_mention || member_name]`,
+  usage: `prefixname [member]`,
   description:
     "Renvoie la photo de profil de l'utilisateur spécifié, ou sa propre photo de profil",
   category: "Infos",

@@ -3,7 +3,7 @@ module.exports = {
   aliases: ["deletemod", "delmoderator", "deletemoderator"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
-    message.delete();
+    if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
     if (client.isEnabled("moderation") == false)
       return client.moduleDisabled("moderation");
@@ -18,7 +18,7 @@ module.exports = {
     );
   },
   cooldown: 5,
-  usage: `prefixname <role_id || role_mention || role_name>`,
+  usage: `prefixname <role>`,
   description: "Supprime un rôle modérateur",
   category: "Moderation",
   permission: "Administrateur",

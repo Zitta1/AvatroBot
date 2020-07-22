@@ -61,7 +61,7 @@ module.exports = async (client, message) => {
 
       if (timeNow < cdExpirationTime) {
         let timeLeft = (cdExpirationTime - timeNow) / 1000;
-        message.delete();
+        if (settings.autoDelete == true) message.delete();
         return message.reply(
           `merci d'attendre \`${timeLeft.toFixed(
             0
