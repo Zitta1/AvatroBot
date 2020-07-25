@@ -1,7 +1,7 @@
 module.exports = {
   name: "roleinfo",
   aliases: ["ri"],
-  run: async (client, message, args) => {
+  run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!args[0]) return message.reply(`veuillez spécifier un rôle`);

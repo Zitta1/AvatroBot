@@ -82,12 +82,14 @@ module.exports = {
         .replace("Nov", "11")
         .replace("Dec", "12");
       client.updateModerations(member, message.guild, "mute", {
-        moderator: message.member.id,
+        moderator: message.member.user.tag,
+        moderatorID: message.member.id,
         date:
           mutedAt.split(" ").slice(0, 2).reverse().join(" ") +
           " " +
           mutedAt.substr(mutedAt.length - 4),
         reason: reason,
+        length: muteTime,
       });
       await client.updateCases(message.guild, {
         type: "mute",
@@ -95,10 +97,12 @@ module.exports = {
           mutedAt.split(" ").slice(0, 2).reverse().join(" ") +
           " " +
           mutedAt.substr(mutedAt.length - 4),
-        member: member.id,
-        moderator: message.member.id,
-        time: muteTime,
+        member: member.user.tag,
+        memberID: member.id,
+        moderator: message.member.user.tag,
+        moderatorID: message.member.id,
         reason: reason,
+        length: muteTime,
       });
 
       if (muteTime) {

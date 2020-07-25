@@ -44,7 +44,8 @@ module.exports = {
           .replace("Nov", "11")
           .replace("Dec", "12");
         await client.updateModerations(member, message.guild, "ban", {
-          moderator: message.member.id,
+          moderator: message.member.user.tag,
+          moderatorID: message.member.id,
           date:
             bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
             " " +
@@ -52,6 +53,7 @@ module.exports = {
             new Date().getHours() +
             ":" +
             new Date().getMinutes(),
+          length: banTime,
           reason: reason,
         });
         await client.updateCases(message.guild, {
@@ -63,8 +65,10 @@ module.exports = {
             new Date().getHours() +
             ":" +
             new Date().getMinutes(),
-          member: member.id,
-          moderator: message.member.id,
+          member: member.user.tag,
+          memberID: member.id,
+          moderator: message.member.user.tag,
+          moderatorID: message.member.id,
           length: banTime,
           reason: reason,
         });
@@ -150,11 +154,14 @@ module.exports = {
               message.guild,
               "ban",
               {
-                moderator: message.member.id,
+                moderator: message.member.user.tag,
+                moderatorID: message.member.id,
                 date:
                   bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
                   " " +
                   bannedAt.substr(bannedAt.length - 4),
+                length: null,
+                reason: "ban match"
               }
             );
             await client.updateCases(message.guild, {
@@ -203,7 +210,8 @@ module.exports = {
       .replace("Nov", "11")
       .replace("Dec", "12");
     await client.updateModerations(member, message.guild, "ban", {
-      moderator: message.member.id,
+      moderator: message.member.user.tag,
+      moderatorID: message.member.id,
       date:
         bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
         " " +
@@ -216,8 +224,10 @@ module.exports = {
         bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
         " " +
         bannedAt.substr(bannedAt.length - 4),
-      member: member.id,
-      moderator: message.member.id,
+      member: member.user.tag,
+      memberID: member.id,
+      moderator: message.member.user.tag,
+      moderatorID: message.member.id,
       length: banTime,
       reason: reason,
     });

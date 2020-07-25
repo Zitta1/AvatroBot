@@ -33,7 +33,7 @@ module.exports = {
           `vous devez indiquer un channel ou le message sera posté`
         );
       const role = client.getRole(args[1]);
-      if (!role) return client.roleNotFound();
+      if (!role || role.name == "@everyone") return client.roleNotFound();
       const channel = client.getChannel(args[2]);
       if (!channel) return client.channelNotFound();
       if (!args[3])

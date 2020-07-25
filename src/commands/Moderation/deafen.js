@@ -70,12 +70,14 @@ module.exports = {
         .replace("Nov", "11")
         .replace("Dec", "12");
       await client.updateModerations(member, message.guild, "deaf", {
-        moderator: message.member.id,
+        moderator: message.member.user.tag,
+        moderatorID: message.member.id,
         date:
           deafenAt.split(" ").slice(0, 2).reverse().join(" ") +
           " " +
           deafenAt.substr(deafenAt.length - 4),
         reason: reason,
+        length: deafTime,
       });
       await client.updateCases(message.guild, {
         type: "deaf",
@@ -83,8 +85,10 @@ module.exports = {
           deafenAt.split(" ").slice(0, 2).reverse().join(" ") +
           " " +
           deafenAt.substr(deafenAt.length - 4),
-        member: member.id,
-        moderator: message.member.id,
+        member: member.user.tag,
+        memberID: member.id,
+        moderator: message.member.user.tag,
+        moderatorID: message.member.id,
         length: deafTime,
         reason: reason,
       });

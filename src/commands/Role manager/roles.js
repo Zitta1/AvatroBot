@@ -11,7 +11,7 @@ module.exports = {
       .filter((r) => r !== "@everyone")
       .join("\n");
     if (!roles) return message.channel.send(`\`\`\`no roles\`\`\``);
-    else message.channel.send(`\`\`\`${roles}\`\`\``);
+    else message.channel.send(`\`\`\`${roles}\`\`\``, { split: true });
   },
   cooldown: 5,
   description: "Renvoie la liste de tous les roles du serveur",

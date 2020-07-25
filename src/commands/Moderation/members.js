@@ -11,7 +11,10 @@ module.exports = {
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
     const { MessageEmbed } = require("discord.js");
-    const embed = new MessageEmbed();
+    const embed = new MessageEmbed()
+      .setColor(role.hexColor)
+      .setTimestamp()
+      .setFooter(`ID: ${message.author.id}`);
     const members = role.members.map((m) => m);
     const membersArray = [];
     for (let i in members) {
@@ -19,7 +22,7 @@ module.exports = {
     }
     embed.addField(
       `Membres possédant le rôle ${role.name}`,
-      membersArray.join("\n")
+      membersArray.join(", ")
     );
     return message.channel.send(embed);
   },

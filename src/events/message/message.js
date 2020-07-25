@@ -29,10 +29,28 @@ module.exports = async (client, message) => {
       `Mon préfixe sur ce serveur est: \`${settings.prefix}\``
     );
   }
+
+  client.emotes = {
+    enabled: "<:enabled:728220529303224320>",
+    disabled: "<:disabled:728220530418647060>",
+    loading2: "<a:loading2:728546005439479819>",
+    loading: "<a:loading:728546005867561020>",
+    check: "<a:check:728546006614147083>",
+    xcheck: "<a:xcheck:728546007570317353>",
+    vcheck: "<a:vcheck:728546008002330685>",
+  };
+
+  if (message.content == `<@!${client.user.id}> reset`) {
+    await client.updateGuild(message.guild, { prefix: ">" });
+    return message.channel.send(
+      `${client.emotes.check} Préfixe réinitialisé: \`>\``
+    );
+  }
   if (message.content.indexOf(prefix) !== 0) return;
   if (
     message.guild.id !== "727142124096585739" &&
-    message.author.id !== "488912326179946497"
+    message.author.id !== "488912326179946497" &&
+    message.guild.id !== "728207022318944316"
   )
     return message.channel.send(
       "Je suis actuellement en développement, patientez encore un peu :wink:"
@@ -55,13 +73,14 @@ module.exports = async (client, message) => {
 
     if (
       tStamps.has(message.author.id) &&
-      message.author.id !== "488912326179946497"
+      !client.checkPerms("ADMINISTRATOR") &&
+      !client.isMod()
     ) {
       const cdExpirationTime = tStamps.get(message.author.id) + cdAmount;
 
       if (timeNow < cdExpirationTime) {
         let timeLeft = (cdExpirationTime - timeNow) / 1000;
-        if (settings.autoDelete == true) message.delete();
+        if (timeLeft.toFixed(0) == 0) timeLeft = 1;
         return message.reply(
           `merci d'attendre \`${timeLeft.toFixed(
             0
@@ -157,16 +176,6 @@ module.exports = async (client, message) => {
     return message.member.roles.cache
       .map((r) => r.id)
       .includes(settings.modules.moderation.moderatorRole);
-  };
-
-  client.emotes = {
-    enabled: "<:enabled:728220529303224320>",
-    disabled: "<:disabled:728220530418647060>",
-    loading2: "<a:loading2:728546005439479819>",
-    loading: "<a:loading:728546005867561020>",
-    check: "<a:check:728546006614147083>",
-    xcheck: "<a:xcheck:728546007570317353>",
-    vcheck: "<a:vcheck:728546008002330685>",
   };
 
   client.eventEnabled = async (event) => {
