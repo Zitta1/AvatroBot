@@ -373,16 +373,16 @@ const guildSchema = mongoose.Schema({
         type: String,
         default: defaults.modules.moderation.moderatorRole,
       },
-      ignoredRole: {
-        type: String,
-        default: defaults.modules.moderation.ignoredRole,
+      ignoredRoles: {
+        type: Array,
+        default: defaults.modules.moderation.ignoredRoles,
       },
       description: {
         type: String,
         default: defaults.modules.moderation.description,
       },
       ignoredChannels: {
-        type: Object,
+        type: Array,
         default: defaults.modules.moderation.ignoredChannels,
       },
       cases: {

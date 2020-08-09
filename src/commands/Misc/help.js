@@ -17,7 +17,6 @@ module.exports = {
         .setDescription(
           `Pour plus d'informations sur une commande, tapez \`${settings.prefix}help <command_name>\`.`
         )
-        .setAuthor("", message.author.displayAvatarURL({ dynamic: true }));
       for (const cat of categoryList) {
         embed.addField(
           cat,

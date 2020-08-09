@@ -111,14 +111,19 @@ module.exports = async (client, message) => {
   };
 
   client.isIgnored = async () => {
-    const ignoredRole = await settings.modules.moderation.ignoredRole;
-    if (ignoredRole !== "none") {
-      if (message.member.roles.cache.map((r) => r.id).includes(ignoredRole))
-        return true;
-    }
+    if (message.member.hasPermission("ADMINISTRATOR")) return false;
+    const ignoredRoles = settings.modules.moderation.ignoredRoles;
+    const memberRoles = message.member.roles.cache.map((r) => r)
+    for (let i in memberRoles) {
+      if (ignoredRoles.includes(memberRoles[i].id)) return true
+    };
     const isIgnored = memberSettings.isIgnored;
     if (isIgnored == true) return true;
-    else return false;
+    const ignoredChannels = settings.modules.moderation.ignoredChannels;
+    if (ignoredChannels.length > 0) {
+      if (ignoredChannels.includes(message.channel.id)) return true;
+    }
+    else return false
   };
 
   client.isOwner = () => {

@@ -7,7 +7,6 @@ module.exports = async (client, channel) => {
   const { MessageEmbed } = require("discord.js");
   const embed = new MessageEmbed()
     .setTimestamp()
-    .setAuthor("", client.user.displayAvatarURL())
     .setColor("#ff0000");
   switch (channel.type) {
     case "text":

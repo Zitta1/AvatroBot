@@ -51,8 +51,8 @@ module.exports = {
         enabled: true,
         description: "Active/Désactive les commandes de modération",
         moderatorRole: "none",
-        ignoredRole: "none",
-        ignoredChannels: {},
+        ignoredRoles: [],
+        ignoredChannels: [],
       },
       AFK: {
         enabled: false,

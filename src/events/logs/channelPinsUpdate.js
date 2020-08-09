@@ -7,7 +7,6 @@ module.exports = async (client, channel) => {
   const { MessageEmbed } = require("discord.js");
   const embed = new MessageEmbed()
     .setTimestamp()
-    .setAuthor("", client.user.displayAvatarURL())
     .setColor("#ff6600")
     .setTitle(`Messages épinglés modifiés dans`)
     .addFields(

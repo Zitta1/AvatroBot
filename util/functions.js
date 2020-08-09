@@ -112,4 +112,48 @@ module.exports = (client, message, settings, memberSettings) => {
     await data.save();
     return true;
   };
+
+  client.addIgnoredRole = async (guild, value) => {
+    const data = await Guild.findOne({
+      guildID: guild.id,
+    });
+    data.modules.moderation.ignoredRoles.push(value);
+    await data.save();
+    return true;
+  };
+
+  client.removeIgnoredRole = async (guild, value) => {
+    const data = await Guild.findOne({
+      guildID: guild.id,
+    });
+    const ignoredRoles = data.modules.moderation.ignoredRoles;
+    ignoredRoles.splice(
+      ignoredRoles.findIndex((v) => v == value),
+      1
+    );
+    await data.save();
+    return true;
+  };
+
+  client.addIgnoredChannel = async (guild, value) => {
+    const data = await Guild.findOne({
+      guildID: guild.id,
+    });
+    data.modules.moderation.ignoredChannels.push(value);
+    await data.save();
+    return true;
+  };
+
+  client.removeIgnoredChannel = async (guild, value) => {
+    const data = await Guild.findOne({
+      guildID: guild.id,
+    });
+    const ignoredChannels = data.modules.moderation.ignoredChannels;
+    ignoredChannels.splice(
+      ignoredChannels.findIndex((v) => v == value),
+      1
+    );
+    await data.save();
+    return true;
+  };
 };

@@ -10,6 +10,7 @@ module.exports = {
     if (!args[0]) return message.reply(`veuillez définir un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
+    if (role.name == "@everyone") return client.roleNotFound();
     const { MessageEmbed } = require("discord.js");
     const embed = new MessageEmbed()
       .setColor(role.hexColor)
@@ -24,7 +25,7 @@ module.exports = {
       `Membres possédant le rôle ${role.name}`,
       membersArray.join(", ")
     );
-    return message.channel.send(embed);
+    return message.channel.send(embed, { split: true });
   },
   cooldown: 5,
   usage: `prefixname <role>`,

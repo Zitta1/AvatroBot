@@ -11,7 +11,6 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle("Suppression automatique des commandes")
         .setColor("#5991bd")
-        .setAuthor("", message.author.avatarURL())
         .setTimestamp()
         .setFooter(`ID: ${message.author.id}`);
       if (settings.autoDelete == true) embed.addField("Statut:", "`activé`");

@@ -10,12 +10,10 @@ module.exports = {
     if (!args[0]) return message.reply(`veuillez spécifier un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
-    if (settings.modules.moderation.ignoredRole !== role.id)
+    if (!settings.modules.moderation.ignoredRoles.includes(role.id))
       return message.reply(`le rôle ${role} n'est pas ignoré`);
     else {
-      await client.updateGuild(message.guild, {
-        "modules.moderation.ignoredRole": "none",
-      });
+      await client.removeIgnoredRole(message.guild, role.id);
       message.channel.send(
         `${client.emotes.check} Le rôle ${role} ne sera plus ignoré`
       );
@@ -23,7 +21,8 @@ module.exports = {
   },
   cooldown: 5,
   usage: `prefixname <role>`,
-  description: "Retire un rôle pour lequel les commandes seront ignorées",
+  description:
+    "Retire un rôle pour lequel les commandes ne seront plus ignorées",
   category: "Moderation",
   permission: "Administrateur",
 };

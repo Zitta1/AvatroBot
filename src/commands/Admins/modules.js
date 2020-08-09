@@ -13,7 +13,6 @@ module.exports = {
           `<:enabled:728220529303224320>: module activé\n<:disabled:728220530418647060>: module désactivé\nPour avoir plus d'information sur un module, tapez \`${settings.prefix}modules <module_name>\`\nPour activer/désactiver un module, tapez\n\`${settings.prefix}modules <module_name> <enable || disable>\``
         )
         .setColor("#5991bd")
-        .setAuthor("", message.author.avatarURL({ dynamic: true }))
         .setTimestamp()
         .setFooter(`ID: ${message.author.id}`);
       if (settings.modules.logs.enabled == true)
@@ -60,7 +59,6 @@ module.exports = {
       }
       const embed = new MessageEmbed()
         .setColor("#5991bd")
-        .setAuthor("", message.author.avatarURL())
         .setTimestamp()
         .setFooter(`ID: ${message.author.id}`)
         .addField("Description", settings.modules[args[0]].description, true);

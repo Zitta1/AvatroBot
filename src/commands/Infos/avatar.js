@@ -12,7 +12,6 @@ module.exports = {
       .setImage(member.user.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
       .setFooter(`ID: ${message.author.id}`)
-      .setAuthor("", message.author.displayAvatarURL({ dynamic: true }));
     return message.channel.send(embed);
   },
   cooldown: 5,

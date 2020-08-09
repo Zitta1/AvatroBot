@@ -16,6 +16,8 @@ module.exports = {
     }
     if (args[0]) {
       const newSetting = args.join(" ");
+      if (newSetting == settings.prefix) return message.reply(`le nouveau préfixe doit être diférent de l'ancien`);
+      if (newSetting.length < 1900) return message.reply(`le préfixe doit contenir 1900 caractères ou moins`);
       await client.updateGuild(message.guild, { prefix: newSetting });
       return message.channel.send(
         `${client.emotes.check} Préfixe mis à jour, ancien préfixe: \`${settings.prefix}\` nouveau préfixe: \`${newSetting}\``
