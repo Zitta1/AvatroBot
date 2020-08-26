@@ -30,16 +30,6 @@ module.exports = async (client, message) => {
     );
   }
 
-  client.emotes = {
-    enabled: "<:enabled:728220529303224320>",
-    disabled: "<:disabled:728220530418647060>",
-    loading2: "<a:loading2:728546005439479819>",
-    loading: "<a:loading:728546005867561020>",
-    check: "<a:check:728546006614147083>",
-    xcheck: "<a:xcheck:728546007570317353>",
-    vcheck: "<a:vcheck:728546008002330685>",
-  };
-
   if (message.content == `<@!${client.user.id}> reset`) {
     await client.updateGuild(message.guild, { prefix: ">" });
     return message.channel.send(
@@ -84,7 +74,7 @@ module.exports = async (client, message) => {
         return message.reply(
           `merci d'attendre \`${timeLeft.toFixed(
             0
-          )}\` seconde(s) àavant d'utiliser à nouveau la commande \`${
+          )}\` seconde(s) avant d'utiliser à nouveau la commande \`${
             command.name
           }\`.`
         );
@@ -96,34 +86,35 @@ module.exports = async (client, message) => {
   }
 
   client.getRole = (value) => {
-    const roles = message.guild.roles.cache.map((r) => r);
+    const roles = message.guild.roles.cache;
     const role =
       message.mentions.roles.first() ||
-      roles.filter((r) => r.id == value)[0] ||
-      roles.filter((r) => r.name == value)[0];
+      roles.find((r) => r.id == value) ||
+      roles.find((r) => r.name == value);
     return role;
   };
 
   client.getMember = (value) => {
     const member =
-      message.mentions.members.first() || message.guild.member(value);
+      message.mentions.members.first() ||
+      message.guild.member(value) ||
+      message.guild.members.cache.find((m) => m.user.username == value);
     return member;
   };
 
   client.isIgnored = async () => {
     if (message.member.hasPermission("ADMINISTRATOR")) return false;
     const ignoredRoles = settings.modules.moderation.ignoredRoles;
-    const memberRoles = message.member.roles.cache.map((r) => r)
+    const memberRoles = message.member.roles.cache.map((r) => r);
     for (let i in memberRoles) {
-      if (ignoredRoles.includes(memberRoles[i].id)) return true
-    };
+      if (ignoredRoles.includes(memberRoles[i].id)) return true;
+    }
     const isIgnored = memberSettings.isIgnored;
     if (isIgnored == true) return true;
     const ignoredChannels = settings.modules.moderation.ignoredChannels;
     if (ignoredChannels.length > 0) {
       if (ignoredChannels.includes(message.channel.id)) return true;
-    }
-    else return false
+    } else return false;
   };
 
   client.isOwner = () => {
@@ -150,25 +141,15 @@ module.exports = async (client, message) => {
   };
 
   client.getChannel = (value) => {
-    const channel =
-      message.guild.channels.cache
-        .map((ch) => ch)
-        .filter((ch) => ch.type == "text")
-        .filter((ch) => ch.id == value)[0] ||
-      message.guild.channels.cache
-        .map((ch) => ch)
-        .filter((ch) => ch.type == "text")
-        .filter((ch) => ch.name == value)[0] ||
-      message.mentions.channels.first();
-    return channel;
+    return (
+      message.guild.channels.cache.find((ch) => ch.id == value) ||
+      message.guild.channels.cache.find((ch) => ch.name == value) ||
+      message.mentions.channels.first()
+    );
   };
 
   client.channelNotFound = () => {
     return message.reply(`channel introuvable`);
-  };
-
-  client.isEnabled = (module) => {
-    return settings.modules[module].enabled;
   };
 
   client.moduleDisabled = (module) => {
@@ -183,17 +164,18 @@ module.exports = async (client, message) => {
       .includes(settings.modules.moderation.moderatorRole);
   };
 
-  client.eventEnabled = async (event) => {
-    return settings.modules.logs.events[event];
+  client.hasPerm = (perm) => {
+    return message.guild.me.hasPermission(perm);
   };
 
-  client.logChannel = async () => {
-    const channelID = settings.modules.logs.logChannel;
-    return message.guild.channels.cache
-      .map((ch) => ch)
-      .filter((ch) => ch.type == "text")
-      .filter((ch) => ch.id == channelID)[0];
+  client.hasNoPerm = (perm) => {
+    return message.reply(
+      `il me manque la permission \`${perm}\` pour exécuter cette commande`
+    );
   };
 
-  if (command) command.run(client, message, args, settings, memberSettings);
+  if (command) {
+    command.run(client, message, args, settings, memberSettings);
+    await client.addCommandRun();
+  }
 };

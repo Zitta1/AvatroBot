@@ -1,8 +1,9 @@
 module.exports = async (client, channel) => {
+  const settings = await client.getGuild(channel.guild);
   if (channel.type == "dm") return;
-  if (client.isEnabled("logs") == false) return;
-  if (client.eventEnabled("channelCreate") == false) return;
-  const logChannel = client.logChannel();
+  if (client.isEnabled("logs", channel.guild) == false) return;
+  if (client.eventEnabled("channelPinsUpdate", channel.guild) == false) return;
+  const logChannel = await client.logChannel(channel.guild);
   if (!logChannel) return;
   const { MessageEmbed } = require("discord.js");
   const embed = new MessageEmbed()

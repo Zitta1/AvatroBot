@@ -5,8 +5,11 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
+    if (!client.hasPerm("MANAGE_ROLES"))
+      return client.hasNoPerm("gérer les rôles");
     if (!args[0]) return message.reply("veuillez définir le nom du rôle");
-    if (args[0].startsWith("```")) return message.reply(`nom invalide`);
+    if (args[0].startsWith("```") || args[0].endsWith("```"))
+      return message.reply(`nom invalide`);
     if (args[0] == "everyone" || args[0] == "here")
       return message.reply(`nom invalide`);
     if (args[1]) {

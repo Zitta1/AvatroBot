@@ -21,6 +21,10 @@ const { MessageEmbed } = require("discord.js");
 let embed = new MessageEmbed()
   .setTitle()
   .setColor("#5991bd")
-  .addField()
   .setTimestamp()
-  .setFooter(`ID: ${message.author.id}`)
+  .setFooter(`ID: ${message.author.id}`);
+
+const embed = new MessageEmbed()
+  .setTitle()
+  .setColor("#FF0000", "#FF6600", "#16ad2c")
+  .setTimestamp()

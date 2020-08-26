@@ -16,5 +16,4 @@ module.exports = {
   cooldown: 5,
   description: "Evoie un meme aléatoire",
   category: "Fun",
-  permission: "Aucune",
 };

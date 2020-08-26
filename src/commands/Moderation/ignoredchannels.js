@@ -7,7 +7,7 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     const ignoredChannels = settings.modules.moderation.ignoredChannels;
     if (ignoredChannels.length == 0)

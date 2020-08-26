@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { Guild, Member } = require("../models/index");
+const { Guild, Member, BotStats } = require("../models/index");
 
-module.exports = (client, message, settings, memberSettings) => {
+module.exports = (client) => {
   client.createGuild = async (guild) => {
     const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, guild);
     const createGuild = await new Guild(merged);
@@ -90,8 +90,11 @@ module.exports = (client, message, settings, memberSettings) => {
 
   client.getIgnoredMembers = async () => {
     const data = await Member.find({ isIgnored: true });
-    if (data) return data;
-    else return;
+    const dataClean = [];
+    for (let i in data) {
+      dataClean.push(data[i]._doc);
+    }
+    return dataClean;
   };
 
   client.updateModerations = async (member, guild, moderation, value) => {
@@ -155,5 +158,84 @@ module.exports = (client, message, settings, memberSettings) => {
     );
     await data.save();
     return true;
+  };
+
+  client.moderationDate = async () => {
+    const date = new Date()
+      .toString()
+      .substr(4, 17)
+      .replace("Jan", "01")
+      .replace("Feb", "02")
+      .replace("Mar", "03")
+      .replace("Apr", "04")
+      .replace("May", "05")
+      .replace("Jun", "06")
+      .replace("Jul", "07")
+      .replace("Aug", "08")
+      .replace("Sep", "09")
+      .replace("Oct", "10")
+      .replace("Nov", "11")
+      .replace("Dec", "12");
+    return (
+      date.split(" ").slice(0, 2).reverse().join(" ") +
+      " " +
+      date.substr(date.length - 10)
+    );
+  };
+
+  client.addLeft = async (guild, member) => {
+    const data = await Member.findOne({
+      guildID: guild.id,
+      memberID: member.id,
+    });
+    data.leftTimes++;
+    await data.save();
+  };
+
+  client.resetBotStats = async () => {
+    const botStats = await botstats.find();
+    if (botStats.length > 0) botStats[0].remove();
+    const newStats = await new BotStats({
+      commandsRun: 0,
+    })
+      .save()
+      .then((s) => console.log("botstats reset"));
+    return true;
+  };
+
+  client.addCommandRun = async () => {
+    const botStats = await BotStats.find();
+    botStats[0].commandsRun++;
+    await botStats[0].save();
+    return true;
+  };
+
+  client.getBotStats = async () => {
+    return await BotStats.find();
+  };
+
+  client.emotes = {
+    enabled: "<:enabled:728220529303224320>",
+    disabled: "<:disabled:728220530418647060>",
+    loading2: "<a:loading2:728546005439479819>",
+    loading: "<a:loading:728546005867561020>",
+    check: "<a:check:728546006614147083>",
+    xcheck: "<a:xcheck:728546007570317353>",
+    vcheck: "<a:vcheck:728546008002330685>",
+  };
+
+  client.logChannel = async (guild) => {
+    const settings = await client.getGuild(guild);
+    return guild.channels.cache.find(ch => ch.id == settings.modules.logs.logChannel);
+  };
+
+  client.isEnabled = async (module, guild) => {
+    const settings = await client.getGuild(guild);
+    return settings.modules[module].enabled;
+  };
+
+  client.eventEnabled = async (event, guild) => {
+    const settings = await client.getGuild(guild)
+    return settings.modules.logs.events[event];
   };
 };

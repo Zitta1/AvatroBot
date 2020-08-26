@@ -5,7 +5,7 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     if (!args[0]) return message.reply(`veuillez spécifier un rôle`);
     const role = client.getRole(args[0]);

@@ -6,8 +6,11 @@ module.exports = {
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
-    if (!client.checkPerms() && !client.isMod()) return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (!client.checkPerms("BAN_MEMBERS") && !client.isMod())
+      return client.noPerms();
+    if (!client.hasPerm("BAN_MEMBERS"))
+      return client.hasNoPerm("bannir des membres");
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     let reason;
     switch (args[0]) {
@@ -27,44 +30,25 @@ module.exports = {
           if (args[2]) reason = args.slice(3).join(" ");
         } else if (args[1]) reason = args.slice(3).join(" ");
         if (!reason) reason = "Pas de raison spécifiée";
+        if (banTime)
+          member.send(
+            `Vous serez banni du serveur **${message.guild.name}** pendant ${banTime}: *${reason}*`
+          );
+        else
+          member.send(
+            `Vous avez été banni du serveur **${message.guild.name}**: *${reason}*`
+          );
         member.ban({ reason: reason });
-        let bannedAt = new Date()
-          .toString()
-          .substr(4, 11)
-          .replace("Jan", "01")
-          .replace("Feb", "02")
-          .replace("Mar", "03")
-          .replace("Apr", "04")
-          .replace("May", "05")
-          .replace("Jun", "06")
-          .replace("Jul", "07")
-          .replace("Aug", "08")
-          .replace("Sep", "09")
-          .replace("Oct", "10")
-          .replace("Nov", "11")
-          .replace("Dec", "12");
         await client.updateModerations(member, message.guild, "ban", {
           moderator: message.member.user.tag,
           moderatorID: message.member.id,
-          date:
-            bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
-            " " +
-            bannedAt.substr(bannedAt.length - 4) +
-            new Date().getHours() +
-            ":" +
-            new Date().getMinutes(),
+          date: client.moderationDate(),
           length: banTime,
           reason: reason,
         });
         await client.updateCases(message.guild, {
           type: "ban save",
-          date:
-            bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
-            " " +
-            bannedAt.substr(bannedAt.length - 4) +
-            new Date().getHours() +
-            ":" +
-            new Date().getMinutes(),
+          date: client.moderationDate(),
           member: member.user.tag,
           memberID: member.id,
           moderator: message.member.user.tag,
@@ -77,11 +61,11 @@ module.exports = {
             message.guild.members.unban(member.user);
           }, ms(banTime));
           message.channel.send(
-            `${client.emotes.check} ${member.user.tag} sera banni pendant ${banTime}: ${reason}`
+            `${client.emotes.check} ${member.user.tag} sera banni pendant ${banTime}: *${reason}*`
           );
         } else
           message.channel.send(
-            `${client.emotes.check} ${member.user.tag} à été banni: ${reason}`
+            `${client.emotes.check} ${member.user.tag} à été banni: *${reason}*`
           );
         return;
       case "match":
@@ -134,21 +118,6 @@ module.exports = {
               `${client.emotes.check} Le membre ${membersListClean[i]} a été banni`
             );
             membersListClean[i].ban();
-            let bannedAt = new Date()
-              .toString()
-              .substr(4, 11)
-              .replace("Jan", "01")
-              .replace("Feb", "02")
-              .replace("Mar", "03")
-              .replace("Apr", "04")
-              .replace("May", "05")
-              .replace("Jun", "06")
-              .replace("Jul", "07")
-              .replace("Aug", "08")
-              .replace("Sep", "09")
-              .replace("Oct", "10")
-              .replace("Nov", "11")
-              .replace("Dec", "12");
             await client.updateModerations(
               membersListClean[i].id,
               message.guild,
@@ -156,20 +125,14 @@ module.exports = {
               {
                 moderator: message.member.user.tag,
                 moderatorID: message.member.id,
-                date:
-                  bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
-                  " " +
-                  bannedAt.substr(bannedAt.length - 4),
+                date: client.moderationDate(),
                 length: null,
-                reason: "ban match"
+                reason: "ban match",
               }
             );
             await client.updateCases(message.guild, {
               type: "ban match",
-              date:
-                bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
-                " " +
-                bannedAt.substr(bannedAt.length - 4),
+              date: client.moderationDate(),
               member: membersListClean[i].id,
               moderator: message.member.id,
               matchText: matched,
@@ -178,52 +141,41 @@ module.exports = {
         }
         return;
     }
-    const member = client.getMember(args[1]);
+    const member = client.getMember(args[0]);
     if (!member) return client.memberNotFound();
     let banTime;
-    if (
-      args[2].endsWith("s") ||
-      args[2].endsWith("m") ||
-      args[2].endsWith("h") ||
-      args[2].endsWith("d") ||
-      args[2].endsWith("w") ||
-      args[2].endsWith("y")
-    ) {
-      banTime = args[2];
-      if (args[3]) reason = args.slice(3).join(" ");
-    } else if (args[2]) reason = args.slice(3).join(" ");
+    if (args[1]) {
+      if (
+        args[1].endsWith("s") ||
+        args[1].endsWith("m") ||
+        args[1].endsWith("h") ||
+        args[1].endsWith("d") ||
+        args[1].endsWith("w") ||
+        args[1].endsWith("y")
+      ) {
+        banTime = args[1];
+        if (args[3]) reason = args.slice(3).join(" ");
+      } else if (args[1]) reason = args.slice(3).join(" ");
+    }
     if (!reason) reason = "Pas de raison spécifiée";
+    if (banTime)
+      member.send(
+        `Vous serez banni du serveur **${message.guild.name}** pendant ${banTime}: *${reason}*`
+      );
+    else
+      member.send(
+        `Vous avez été banni du serveur **${message.guild.name}**: *${reason}*`
+      );
     member.ban({ days: 7, reason: reason });
-    let bannedAt = new Date()
-      .toString()
-      .substr(4, 11)
-      .replace("Jan", "01")
-      .replace("Feb", "02")
-      .replace("Mar", "03")
-      .replace("Apr", "04")
-      .replace("May", "05")
-      .replace("Jun", "06")
-      .replace("Jul", "07")
-      .replace("Aug", "08")
-      .replace("Sep", "09")
-      .replace("Oct", "10")
-      .replace("Nov", "11")
-      .replace("Dec", "12");
     await client.updateModerations(member, message.guild, "ban", {
       moderator: message.member.user.tag,
       moderatorID: message.member.id,
-      date:
-        bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
-        " " +
-        bannedAt.substr(bannedAt.length - 4),
+      date: client.moderationDate(),
       reason: reason,
     });
     await client.updateCases(message.guild, {
       type: "ban",
-      date:
-        bannedAt.split(" ").slice(0, 2).reverse().join(" ") +
-        " " +
-        bannedAt.substr(bannedAt.length - 4),
+      date: client.moderationDate(),
       member: member.user.tag,
       memberID: member.id,
       moderator: message.member.user.tag,
@@ -236,17 +188,17 @@ module.exports = {
         message.guild.members.unban(member.user);
       }, ms(banTime));
       message.channel.send(
-        `${client.emotes.check} ${member.user.tag} sera banni pendant ${banTime}: ${reason}`
+        `${client.emotes.check} ${member.user.tag} sera banni pendant ${banTime}: *${reason}*`
       );
     } else
       message.channel.send(
-        `${client.emotes.check} ${member.user.tag} à été banni: ${reason}`
+        `${client.emotes.check} ${member.user.tag} à été banni: *${reason}*`
       );
   },
   cooldown: 0,
   usage: `prefixname <member> [time] [reason]\nprefixname save <member> [time] [reason]\nprefixname match <match_text>`,
   description:
-    "Banni un membre, avec comme option de sauvegarder les messages de ce membre ou alors de ban tous les membres ayant envoyé un message contenant un terme",
+    "Banni un membre, avec comme option de sauvegarder les messages de ce membre ou alors de bannir tous les membres ayant envoyé un message contenant un terme",
   category: "Moderation",
-  permission: "Modérateur",
+  permission: "Modérateur || Bannir des membres",
 };

@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 module.exports = {
   name: "eval",
   run: async (client, message, args, settings) => {

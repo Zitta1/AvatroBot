@@ -1,7 +1,9 @@
-module.exports = (client) => {
+const { readFileSync } = require("fs");
+
+module.exports = async (client) => {
   const statuses = [
     "préfixe par défaut: >",
-    "Un problème avec le bot? rejoignez le serveur de support: https://discord.gg/5N8HDB",
+    "Un problème avec le bot? rejoignez le serveur de support: https://discord.gg/9zNtkbK",
   ];
   let si = 0;
   let seconds = 20;

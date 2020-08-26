@@ -61,10 +61,14 @@ module.exports = {
         .setColor("#5991bd")
         .setTimestamp()
         .setFooter(`ID: ${message.author.id}`)
-        .addField("Description", settings.modules[args[0]].description, true);
-      if (settings.modules[args[0]].enabled == true)
+        .addField(
+          "Description",
+          settings.modules[args[0].toLowerCase()].description,
+          true
+        );
+      if (settings.modules[args[0].toLowerCase()].enabled == true)
         embed.setDescription(`<:enabled:728220529303224320> module activé`);
-      if (settings.modules[args[0]].enabled == false)
+      if (settings.modules[args[0].toLowerCase()].enabled == false)
         embed.setDescription(`<:disabled:728220530418647060> module désactivé`);
       if (args[0].toLowerCase() == "logs") embed.setTitle("Logs");
       if (args[0].toLowerCase() == "announcements")
@@ -88,98 +92,193 @@ module.exports = {
           `${args[0]} n'est pas un nom de module, pour avoir la liste de tous les modules, tapez \`${settings.prefix}modules\``
         );
       let newSetting;
-      if (args[1] == "enable") newSetting = true;
-      if (args[1] == "disable") newSetting = false;
+      if (args[1].toLowerCase() == "enable") newSetting = true;
+      if (args[1].toLowerCase() == "disable") newSetting = false;
       if (args[0].toLowerCase() == "logs") {
-        await client.updateGuild(message.guild, {
-          "modules.logs.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Logs\` à bien été activé. Pour plus d'informations sur les options de logs, tapez \`${settings.prefix}logs\`.`
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Logs\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.logs.enabled == true)
+            return message.reply(`le module \`Logs\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.logs.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Logs\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.logs.enabled == false)
+            return message.reply(`le module \`Logs\` est déjà désactivé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.logs.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Logs\` à bien été désactivé`
+            );
+          }
+        }
       }
       if (args[0].toLowerCase() == "announcements") {
-        await client.updateGuild(message.guild, {
-          "modules.announcements.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Announcements\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}announcements\``
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Announcements\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.announcements.enabled == true)
+            return message.reply(`le module \`Announcements\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.announcements.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Announcements\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.announcements.enabled == false)
+            return message.reply(
+              `le module \`Announcements\` est déjà désactivé`
+            );
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.announcements.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Announcements\` à bien été désactivé`
+            );
+          }
+        }
       }
       if (args[0].toLowerCase() == "moderation") {
-        await client.updateGuild(message.guild, {
-          "modules.moderation.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Moderation\` à bien été activé.`
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Moderation\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.moderation.enabled == true)
+            return message.reply(`le module \`Moderation\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.moderation.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Moderation\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.moderation.enabled == false)
+            return message.reply(`le module \`Moderation\` est déjà désactivé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.moderation.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Moderation\` à bien été désactivé`
+            );
+          }
+        }
       }
       if (args[0].toLowerCase() == "afk") {
-        await client.updateGuild(message.guild, {
-          "modules.AFK.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`AFK\` à bien été activé.`
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`AFK\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.AFK.enabled == true)
+            return message.reply(`le module \`AFK\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.AFK.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`AFK\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.AFK.enabled == false)
+            return message.reply(`le module \`AFK\` est déjà désactivé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.AFK.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`AFK\` à bien été désactivé`
+            );
+          }
+        }
       }
       if (args[0].toLowerCase() == "automessage") {
-        await client.updateGuild(message.guild, {
-          "modules.autoMessage.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`AutoMessage\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}automessage\`.`
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`AutoMessage\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.autoMessage.enabled == true)
+            return message.reply(`le module \`AutoMessage\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.autoMessage.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`AutoMessage\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.autoMessage.enabled == false)
+            return message.reply(
+              `le module \`AutoMessage\` est déjà désactivé`
+            );
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.autoMessage.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`AutoMessage\` à bien été désactivé`
+            );
+          }
+        }
       }
       if (args[0].toLowerCase() == "autoroles") {
-        await client.updateGuild(message.guild, {
-          "modules.autoRoles.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`AutoRoles\` à bien été activé. Pour plus d'informations tapez \`${settings.prefix}autoroles\`.`
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`AutoRoles\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.autoRoles.enabled == true)
+            return message.reply(`le module \`AutoRoles\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.autoRoles.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`AutoRoles\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.autoRoles.enabled == false)
+            return message.reply(`le module \`AutoRoles\` est déjà désactivé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.autoRoles.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`AutoRoles\` à bien été désactivé`
+            );
+          }
+        }
       }
       if (args[0].toLowerCase() == "reminders") {
-        await client.updateGuild(message.guild, {
-          "modules.reminders.enabled": newSetting,
-        });
-        if (newSetting == true)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Reminders\` à bien été activé.`
-          );
-        if (newSetting == false)
-          return message.channel.send(
-            `${client.emotes.check} Le module \`Reminders\` à bien été désactivé.`
-          );
+        if (newSetting == true) {
+          if (settings.modules.reminders.enabled == true)
+            return message.reply(`le module \`Reminders\` est déjà activé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.reminders.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Reminders\` à bien été activé`
+            );
+          }
+        }
+        if (newSetting == false) {
+          if (settings.modules.reminders.enabled == false)
+            return message.reply(`le module \`Reminders\` est déjà désactivé`);
+          else {
+            await client.updateGuild(message.guild, {
+              "modules.reminders.enabled": newSetting,
+            });
+            message.channel.send(
+              `${client.emotes.check} Le module \`Reminders\` à bien été désactivé`
+            );
+          }
+        }
       }
     }
   },

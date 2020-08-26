@@ -7,10 +7,13 @@ module.exports = {
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES") && !client.isMod())
       return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (!client.hasPerm("MANAGE_ROLES"))
+      return client.hasNoPerm("gérer les rôles");
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
 
     const member = client.getMember(args[0]);
+    if (!member) return client.memberNotFound();
     if (
       member.hasPermission("ADMINISTRATOR") ||
       member.roles.cache
@@ -84,19 +87,13 @@ module.exports = {
       client.updateModerations(member, message.guild, "mute", {
         moderator: message.member.user.tag,
         moderatorID: message.member.id,
-        date:
-          mutedAt.split(" ").slice(0, 2).reverse().join(" ") +
-          " " +
-          mutedAt.substr(mutedAt.length - 4),
+        date: client.moderationDate(),
         reason: reason,
         length: muteTime,
       });
       await client.updateCases(message.guild, {
         type: "mute",
-        date:
-          mutedAt.split(" ").slice(0, 2).reverse().join(" ") +
-          " " +
-          mutedAt.substr(mutedAt.length - 4),
+        date: client.moderationDate(),
         member: member.user.tag,
         memberID: member.id,
         moderator: message.member.user.tag,

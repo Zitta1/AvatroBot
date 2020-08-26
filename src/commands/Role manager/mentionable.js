@@ -5,6 +5,7 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
+    if (!client.hasPerm("MANAGE_ROLES")) return client.hasNoPerm("gérer les rôles")
     if (!args[0]) return message.reply(`veuillez définir un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();

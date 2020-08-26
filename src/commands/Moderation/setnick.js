@@ -8,7 +8,9 @@ module.exports = {
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_NICKNAMES") && !client.isMod())
       return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (!client.hasPerm("MANAGE_NICKNAMES"))
+      return client.hasNoPerm("gérer les pseudos");
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     if (!args[0]) return message.reply(`veuillez spécifier un membre`);
     const member = client.getMember(args[0]);

@@ -4,7 +4,8 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
-    if (client.isEnabled("logs") == false) return client.moduleDisabled("logs");
+    if (client.isEnabled("logs", message.guild) == false)
+      return client.moduleDisabled("logs");
     const { MessageEmbed } = require("discord.js");
     if (!args[0]) {
       const embed = new MessageEmbed()

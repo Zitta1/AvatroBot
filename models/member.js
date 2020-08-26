@@ -37,7 +37,7 @@ const memberSchema = mongoose.Schema({
     type: Object,
     default: {},
   },
-  leftTimes: {
+  joinTimes: {
     type: Number,
     default: 0,
   },

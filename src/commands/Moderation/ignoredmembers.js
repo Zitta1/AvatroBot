@@ -7,7 +7,7 @@ module.exports = {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("ADMINISTRATOR")) return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     const ignoredMembers = await client.getIgnoredMembers();
     if (ignoredMembers.length == 0)
@@ -23,8 +23,7 @@ module.exports = {
     message.channel.send(embed);
   },
   cooldown: 5,
-  usage: "prefixname",
-  description: "",
-  category: "",
-  permission: "",
+  description: "Renvoie la liste des membres ignorés",
+  category: "Moderation",
+  permission: "Administrateur",
 };

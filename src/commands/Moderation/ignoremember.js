@@ -4,7 +4,7 @@ module.exports = {
   run: async (client, message, args) => {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
-    if (client.isEnabled("moderation") == false)
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     if (!args[0]) return message.reply(`vous devez spécifier un membre`);
     const member = client.getMember(args[0]);

@@ -1,13 +1,11 @@
 module.exports = async (client, channel) => {
   if (channel.type == "dm") return;
-  if (client.isEnabled("logs") == false) return;
-  if (client.eventEnabled("channelCreate") == false) return;
-  const logChannel = client.logChannel();
+  if (client.isEnabled("logs", channel.guild) == false) return;
+  if (client.eventEnabled("channelCreate", channel.guild) == false) return;
+  const logChannel = await client.logChannel(channel.guild);
   if (!logChannel) return;
   const { MessageEmbed } = require("discord.js");
-  const embed = new MessageEmbed()
-    .setTimestamp()
-    .setColor("#16ad2c");
+  const embed = new MessageEmbed().setTimestamp().setColor("#16ad2c");
   switch (channel.type) {
     case "text":
       embed.setTitle(`Salon textuel créé`).addFields(
@@ -24,6 +22,7 @@ module.exports = async (client, channel) => {
         {
           name: "Catégorie",
           value: channel.parent.name,
+          inline: true,
         }
       );
       logChannel.send(embed);
@@ -43,6 +42,7 @@ module.exports = async (client, channel) => {
         {
           name: "Catégorie",
           value: channel.parent.name,
+          inline: true,
         }
       );
       if (channel.userLimit > 0)

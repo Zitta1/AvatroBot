@@ -4,8 +4,11 @@ module.exports = {
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
-    if (!client.checkPerms() && !client.isMod()) return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (!client.checkPerms("DEAFEN_MEMBERS") && !client.isMod())
+      return client.noPerms();
+    if (!client.hasPerm("DEAFEN_MEMBERS"))
+      return client.hasNoPerm("mettre en sourdine des membres");
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     if (!args[0])
       return message.reply(

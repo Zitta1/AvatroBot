@@ -5,7 +5,9 @@ module.exports = {
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES") && !client.isMod())
       return client.noPerms();
-    if (client.isEnabled("moderation") == false)
+    if (!client.hasPerm("MANAGE_ROLES"))
+      return client.hasNoPerm("gérer les rôles");
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     if (!args[0]) return message.reply("merci d'indiquer un membre à unmute");
     const member = client.getMember(args[0]);

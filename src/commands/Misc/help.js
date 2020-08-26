@@ -98,7 +98,9 @@ module.exports = {
             )}\``
         );
       else embed.addField("Utilisation", `${settings.prefix}${command.name}`);
-      embed.addField("Permissions requises", command.permission);
+      if (command.permission)
+        embed.addField("Permissions requises", command.permission);
+      else embed.addField("Permissions requises", "Aucunes");
       if (command.aliases)
         embed.addField("Alias", `${command.aliases.join(", ")}`);
       return message.channel.send(embed);
@@ -108,5 +110,4 @@ module.exports = {
   usage: `prefixname [command_name]`,
   description: "Renvoie ce message",
   category: "Misc",
-  permission: "Aucune",
 };

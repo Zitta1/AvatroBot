@@ -1,29 +1,28 @@
 module.exports = {
-  name: "rolecolor",
-  aliases: ["rc"],
+  name: "rolename",
+  aliases: ["rn"],
   run: async (client, message, args, settings) => {
     if ((await client.isIgnored()) == true) return;
     if (settings.autoDelete == true) message.delete();
     if (!client.checkPerms("MANAGE_ROLES")) return client.noPerms();
     if (!client.hasPerm("MANAGE_ROLES"))
       return client.hasNoPerm("gérer les rôles");
-    if (!args[0]) return message.reply(`veuillez définir un rôle`);
+    if (!args[0]) return message.reply(`veuillez indiquer un rôle`);
     const role = client.getRole(args[0]);
     if (!role) return client.roleNotFound();
-    if (!args[1])
+    const newName = args.slice(1).join(" ");
+    if (newName.length > 100)
       return message.reply(
-        "merci d'indiquer une nouvelle couleur en hexadécimal (#000000)"
+        `le nom du rôle doit contenir moin de 100 caractères`
       );
-    if (!args[1].startsWith("#") || args[1].length !== 7)
-      return message.reply("la couleur dois être en hexadécimal (#000000)");
-    role.setColor(args[1]);
+    await role.setName(newName);
     message.channel.send(
-      `${client.emotes.check} La couleur du rôle ${role} a bien été changée`
+      `${client.emotes.check} Le nom du rôle à été changé en ${role}`
     );
   },
   cooldown: 5,
-  usage: `prefixname <role> <hexacolor>`,
-  description: "Change la couleur du rôle indiqué",
+  usage: "prefixname <role> <new_name>",
+  description: "Modifie l nom du rôle spécifié",
   category: "Role Manager",
   permission: "Gérer les rôles",
 };

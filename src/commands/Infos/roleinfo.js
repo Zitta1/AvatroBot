@@ -90,5 +90,4 @@ module.exports = {
   usage: `prefixname <role>`,
   description: "Renvoie les informations sur un rôle",
   category: "Infos",
-  permissions: "Aucune",
 };

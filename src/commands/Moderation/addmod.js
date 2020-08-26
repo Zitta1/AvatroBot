@@ -8,7 +8,7 @@ module.exports = {
       return message.reply(
         "vous n'avez pas les permissions pour effectuer cette commande"
       );
-    if (client.isEnabled("moderation") == false)
+    if (client.isEnabled("moderation", message.guild) == false)
       return client.moduleDisabled("moderation");
     if (!args[0]) return message.reply(`veuillez spécifier un rôle`);
     const role = client.getRole(args[0]);
